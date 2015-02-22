@@ -1,4 +1,4 @@
-package jp.tsur.bl;
+package jp.tsur.chil;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
