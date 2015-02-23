@@ -54,11 +54,9 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 0) {
-            if (resultCode == RESULT_OK) {
-                String isbn = data.getStringExtra("SCAN_RESULT");
-                search(isbn);
-            }
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            String isbn = data.getStringExtra("SCAN_RESULT");
+            search(isbn);
         }
     }
 
@@ -88,6 +86,10 @@ public class MainActivity extends Activity {
                 timestamp, AMAZON_VERSION, digest, new Callback<ItemLookupResponse>() {
                     @Override
                     public void success(ItemLookupResponse itemLookupResponse, Response response) {
+                        if (itemLookupResponse.getItems() == null) {
+                            Toast.makeText(MainActivity.this, "ISBN コードが間違っています", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         List<Item> itemList = itemLookupResponse.getItems().getItemList();
                         String title = "";
                         String authorList = "";
@@ -121,13 +123,10 @@ public class MainActivity extends Activity {
                         Log.d("a", error.getResponse().getUrl());
                         error.printStackTrace();
                         if (error.getResponse() == null) {
-                            Toast.makeText(MainActivity.this, "インターネットに繋がっていないようです", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, getString(R.string.toast_error_net), Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        switch (error.getResponse().getStatus()) {
-                            case 403:
-                                Toast.makeText(MainActivity.this, "開発者に相談してください", Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(MainActivity.this, getString(R.string.toast_error_other), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

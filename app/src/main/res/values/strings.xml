@@ -5,4 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_item">ItemActivity</string>
     <string name="label_kindle_edition">Kindle 版　%s</string>
+    <string name="toast_error_net">インターネットに繋がっていないようです</string>
+    <string name="toast_error_other">おや？ もう一度試してみてください</string>
 </resources>
