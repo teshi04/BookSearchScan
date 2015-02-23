@@ -79,6 +79,7 @@ public class MainActivity extends Activity {
 
         String target = AMAZON_URL + Utils.getQuery(params);
         String digest = Utils.toHmacSHA256(target, getString(R.string.aws_secret_access_key_id));
+        digest = Utils.urlEncode(digest);
         Log.d("a", "target: " + target + "\nsignature" + digest);
 
         AwsApi api = AwsService.getAwsService();

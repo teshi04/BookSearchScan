@@ -58,4 +58,20 @@ public class Utils {
         return result.toString();
     }
 
+
+    /**
+     * "-" と "_" も URL エンコードする
+     *
+     * @return URL エンコードした文字列
+     */
+    public static String urlEncode(String text) {
+        try {
+            text = URLEncoder.encode(text, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        text = text.replaceAll("_", "%2F");
+        text = text.replaceAll("-", "%2B");
+        return text;
+    }
 }

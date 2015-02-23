@@ -19,7 +19,7 @@ public interface AwsApi {
             @Query("Service") String service,
             @Query("Timestamp") String timestamp, //  ISO 8601 "yyyy-MM-dd'T'HH:mm:ss'Z'"
             @Query("Version") String version,
-            @Query("Signature") String signature, // http://docs.aws.amazon.com/AWSECommerceService/latest/DG/rest-signature.html
+            @Query(value = "Signature", encodeValue = false) String signature, // http://docs.aws.amazon.com/AWSECommerceService/latest/DG/rest-signature.html
             Callback<ItemLookupResponse> callback
     );
 
