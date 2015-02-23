@@ -81,7 +81,6 @@ public class MainActivity extends Activity {
         String target = AMAZON_URL + Utils.getQuery(params);
         String digest = Utils.toHmacSHA256(target, getString(R.string.aws_secret_access_key_id));
         digest = Utils.urlEncode(digest);
-        Log.d("a", "target: " + target + "\nsignature" + digest);
 
         AwsApi api = AwsService.getAwsService();
         api.getBook(getString(R.string.aws_access_key_id), getString(R.string.amazon_associate_tag), "ISBN", isbn,
@@ -89,21 +88,18 @@ public class MainActivity extends Activity {
                 timestamp, AMAZON_VERSION, digest, new Callback<ItemLookupResponse>() {
                     @Override
                     public void success(ItemLookupResponse itemLookupResponse, Response response) {
-                        Log.d("a", response.getUrl());
                         List<Item> itemList = itemLookupResponse.getItems().getItemList();
                         String title = "";
                         String authorList = "";
-                        String kindleUrl = "";
                         String url = "";
 
                         boolean kindleExist = false;
                         for (Item item : itemList) {
                             ItemAttributes itemAttributes = item.getItemAttributes();
-                            title = itemAttributes.getTitle();
                             if (itemAttributes.getBinding().contains("Kindle")) {
                                 kindleExist = true;
-                                kindleUrl = item.getDetailPageURL();
                             } else {
+                                title = itemAttributes.getTitle();
                                 url = item.getDetailPageURL();
                                 for (Author author : itemAttributes.getAuthorList()) {
                                     authorList = TextUtils.isEmpty(authorList) ?
@@ -113,10 +109,10 @@ public class MainActivity extends Activity {
                         }
 
                         Intent intent = new Intent(MainActivity.this, ItemActivity.class);
-                        intent.putExtra("title", title);
-                        intent.putExtra("author", authorList);
-                        intent.putExtra("kindle_exist", kindleExist);
-                        intent.putExtra("amazon_url", !TextUtils.isEmpty(url) ? url : kindleUrl);
+                        intent.putExtra(ItemActivity.EXTRA_ITEM_TITLE, title);
+                        intent.putExtra(ItemActivity.EXTRA_ITEM_AUTHOR, authorList);
+                        intent.putExtra(ItemActivity.EXTRA_EXISTS_KINDLE, kindleExist);
+                        intent.putExtra(ItemActivity.EXTRA_ITEM_URL, url);
                         startActivity(intent);
                     }
 
