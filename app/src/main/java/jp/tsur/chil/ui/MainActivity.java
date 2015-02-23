@@ -23,6 +23,7 @@ import butterknife.OnClick;
 import jp.tsur.chil.R;
 import jp.tsur.chil.api.AwsApi;
 import jp.tsur.chil.api.AwsService;
+import jp.tsur.chil.model.Author;
 import jp.tsur.chil.model.Item;
 import jp.tsur.chil.model.ItemAttributes;
 import jp.tsur.chil.model.ItemLookupResponse;
@@ -91,7 +92,7 @@ public class MainActivity extends Activity {
                         Log.d("a", response.getUrl());
                         List<Item> itemList = itemLookupResponse.getItems().getItemList();
                         String title = "";
-                        String author = "";
+                        String authorList = "";
                         String kindleUrl = "";
                         String url = "";
 
@@ -99,18 +100,21 @@ public class MainActivity extends Activity {
                         for (Item item : itemList) {
                             ItemAttributes itemAttributes = item.getItemAttributes();
                             title = itemAttributes.getTitle();
-                            author = itemAttributes.getAuthor();
                             if (itemAttributes.getBinding().contains("Kindle")) {
                                 kindleExist = true;
                                 kindleUrl = item.getDetailPageURL();
                             } else {
                                 url = item.getDetailPageURL();
+                                for (Author author : itemAttributes.getAuthorList()) {
+                                    authorList = TextUtils.isEmpty(authorList) ?
+                                            author.getAuthorName() : authorList + ", " + author.getAuthorName();
+                                }
                             }
                         }
 
                         Intent intent = new Intent(MainActivity.this, ItemActivity.class);
                         intent.putExtra("title", title);
-                        intent.putExtra("author", author);
+                        intent.putExtra("author", authorList);
                         intent.putExtra("kindle_exist", kindleExist);
                         intent.putExtra("amazon_url", !TextUtils.isEmpty(url) ? url : kindleUrl);
                         startActivity(intent);

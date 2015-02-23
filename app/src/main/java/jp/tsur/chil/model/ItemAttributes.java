@@ -1,13 +1,16 @@
 package jp.tsur.chil.model;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+
+import java.util.List;
 
 @Root(name = "ItemAttributes", strict = false)
 public class ItemAttributes {
 
-    @Element(name = "Author") //TODO: 著者が複数の場合があるから対応する
-    String author;
+    @ElementList(name = "Author", inline = true)
+    List<Author> authorList;
 
     @Element(name = "Binding")
     String binding;
@@ -15,12 +18,12 @@ public class ItemAttributes {
     @Element(name = "Title")
     String title;
 
-    public String getAuthor() {
-        return author;
+    public List<Author> getAuthorList() {
+        return authorList;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorList(List<Author> authorList) {
+        this.authorList = authorList;
     }
 
     public String getBinding() {
