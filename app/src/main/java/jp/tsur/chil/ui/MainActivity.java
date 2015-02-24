@@ -1,8 +1,9 @@
 package jp.tsur.chil.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import butterknife.OnClick;
 import jp.tsur.chil.R;
 import jp.tsur.chil.api.AwsApi;
@@ -33,16 +35,22 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
     private static final String AMAZON_URL = "GET\necs.amazonaws.jp\n/onca/xml\n";
     private static final String AMAZON_VERSION = "2011-08-01";
+
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+
+        setSupportActionBar(toolbar);
+        search("9784864421928");
     }
 
     @OnClick(R.id.scan_button)

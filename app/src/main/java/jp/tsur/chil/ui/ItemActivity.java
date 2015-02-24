@@ -1,13 +1,13 @@
 package jp.tsur.chil.ui;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
@@ -16,7 +16,7 @@ import butterknife.OnClick;
 import jp.tsur.chil.R;
 
 
-public class ItemActivity extends Activity {
+public class ItemActivity extends ActionBarActivity {
 
     public static final String EXTRA_ITEM_TITLE = "book_title";
     public static final String EXTRA_ITEM_AUTHOR = "book_author";
@@ -24,12 +24,16 @@ public class ItemActivity extends Activity {
     public static final String EXTRA_EXISTS_KINDLE = "book_exists_kindle";
     public static final String URL_CHIL_CHIL = "http://www.chil-chil.net/sp/goodsList/?freeword=";
 
+    @InjectView(R.id.toolbar)
+    Toolbar toolbar;
     @InjectView(R.id.title_view)
     TextView titleView;
     @InjectView(R.id.author_view)
     TextView authorView;
-    @InjectView(R.id.kindle_view)
-    TextView kindleView;
+    @InjectView(R.id.kindle_exist_view)
+    TextView kindleExistView;
+    @InjectView(R.id.kindle_none_view)
+    TextView kindleNoneView;
 
     private String amazonUrl;
     private String title;
@@ -40,7 +44,9 @@ public class ItemActivity extends Activity {
         setContentView(R.layout.activity_item);
         ButterKnife.inject(this);
 
-        ActionBar actionBar = getActionBar();
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -50,10 +56,14 @@ public class ItemActivity extends Activity {
         title = extras.getString(EXTRA_ITEM_TITLE);
         titleView.setText(title);
         authorView.setText(extras.getString(EXTRA_ITEM_AUTHOR));
-        kindleView.setText(getString(R.string.label_kindle_edition, extras.getBoolean(EXTRA_EXISTS_KINDLE) ? "あり" : "なし"));
+        if (extras.getBoolean(EXTRA_EXISTS_KINDLE)) {
+            kindleExistView.setVisibility(View.VISIBLE);
+        } else {
+            kindleNoneView.setVisibility(View.VISIBLE);
+        }
     }
 
-    @OnClick(R.id.browser_chil_button)
+    @OnClick(R.id.open_chil_button)
     void openChilChil() {
         // スペースより前だけでいいと思う、、
         String[] split = title.split(" ");
@@ -62,7 +72,7 @@ public class ItemActivity extends Activity {
         startActivity(intent);
     }
 
-    @OnClick(R.id.browser_amazon_button)
+    @OnClick(R.id.open_amazon_button)
     void openAmazon() {
         Uri uri = Uri.parse(amazonUrl);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -70,27 +80,10 @@ public class ItemActivity extends Activity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_item, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        switch (id) {
-            case R.id.action_settings:
-                return true;
-
-            case android.R.id.home:
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
