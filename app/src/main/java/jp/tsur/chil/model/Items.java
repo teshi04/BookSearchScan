@@ -9,7 +9,7 @@ import java.util.List;
 @Root(name = "Items", strict = false)
 public class Items {
 
-    @ElementList(name = "Item", inline = true)
+    @ElementList(name = "Item", inline = true, required = false)
     List<Item> itemList;
 
     public List<Item> getItemList() {

@@ -134,8 +134,9 @@ public class ItemActivity extends ActionBarActivity {
                 timestamp, AMAZON_VERSION, digest, new Callback<ItemLookupResponse>() {
                     @Override
                     public void success(ItemLookupResponse itemLookupResponse, Response response) {
-                        if (itemLookupResponse.getItems() == null) {
-                            Toast.makeText(ItemActivity.this, "ISBN コードが間違っています", Toast.LENGTH_SHORT).show();
+                        if (itemLookupResponse.getItems().getItemList() == null) {
+                            Toast.makeText(ItemActivity.this, getString(R.string.toast_error_not_isbn), Toast.LENGTH_LONG).show();
+                            finish();
                             return;
                         }
                         List<Item> itemList = itemLookupResponse.getItems().getItemList();
