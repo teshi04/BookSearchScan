@@ -13,8 +13,8 @@
     <style name="AppTheme" parent="AppThemeBase">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
 
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/brown_800</item>
+        <item name="colorPrimaryDark">@color/brown_900</item>
         <item name="colorAccent">@color/orange_500</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
