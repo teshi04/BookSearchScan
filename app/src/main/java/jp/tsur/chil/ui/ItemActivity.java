@@ -1,10 +1,8 @@
 package jp.tsur.chil.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.CardView;
@@ -48,7 +46,6 @@ public class ItemActivity extends ActionBarActivity {
 
     private static final String AMAZON_URL = "GET\necs.amazonaws.jp\n/onca/xml\n";
     private static final String AMAZON_VERSION = "2011-08-01";
-    private static final String URL_CHIL_CHIL = "http://www.chil-chil.net/sp/goodsList/?freeword=";
     public static final String EXTRA_ISBN = "isbn";
 
     @InjectView(R.id.toolbar)
@@ -101,9 +98,9 @@ public class ItemActivity extends ActionBarActivity {
             kindleNoneView.setVisibility(View.VISIBLE);
         }
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sharedPref.getBoolean("chilchil_visible", false))
+        if (Utils.isChilChilMode(this)) {
             openChilButton.setVisibility(View.VISIBLE);
+        }
 
         progressBar.setVisibility(View.GONE);
         cardView.setVisibility(View.VISIBLE);
@@ -181,10 +178,7 @@ public class ItemActivity extends ActionBarActivity {
 
     @OnClick(R.id.open_chil_button)
     void openChilChil() {
-        // スペースより前だけでいいと思う、、
-        String[] split = title.split(" ");
-        Uri uri = Uri.parse(URL_CHIL_CHIL + split[0]);
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Utils.toChilChilUri(title));
         startActivity(intent);
     }
 

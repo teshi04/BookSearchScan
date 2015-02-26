@@ -22,7 +22,7 @@
             android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -58,7 +58,7 @@
                     android:background="@drawable/kindle_exist_background"
                     android:text="@string/label_kindle_edition_exists"
                     android:textColor="@color/orange_500"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -69,7 +69,7 @@
                     android:background="@drawable/kindle_none_background"
                     android:text="@string/label_kindle_edition_non"
                     android:textColor="@color/gray_900"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:visibility="gone" />
 
                 <Button

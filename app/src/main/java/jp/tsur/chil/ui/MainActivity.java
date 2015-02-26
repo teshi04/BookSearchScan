@@ -5,21 +5,32 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
+
+import java.util.ArrayList;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import jp.tsur.chil.R;
+import jp.tsur.chil.model.Book;
 
 
 public class MainActivity extends ActionBarActivity {
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
+    @InjectView(R.id.history_view)
+    RecyclerView historyView;
+    @InjectView(R.id.scan_button)
+    FloatingActionButton scanButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +39,18 @@ public class MainActivity extends ActionBarActivity {
         ButterKnife.inject(this);
 
         setSupportActionBar(toolbar);
+
+        scanButton.attachToRecyclerView(historyView);
+        historyView.setHasFixedSize(true);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        historyView.setLayoutManager(mLayoutManager);
+
+        ArrayList<Book> books = new ArrayList<>();
+        books.add(new Book("夏の塩 (SHY NOVELS)", "榎田尤利", "", true));
+        books.add(new Book("永遠の昨日", "榎田尤利, 紺野 キタ", "", false));
+
+        ScanHistoryAdapter adapter = new ScanHistoryAdapter(this, books);
+        historyView.setAdapter(adapter);
     }
 
     @OnClick(R.id.scan_button)

@@ -1,5 +1,9 @@
 package jp.tsur.chil.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Base64;
 
 import org.apache.http.NameValuePair;
@@ -12,6 +16,8 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Utils {
+
+    private static final String URL_CHIL_CHIL = "http://www.chil-chil.net/sp/goodsList/?freeword=";
 
     /**
      * HmacSHA256化する
@@ -73,5 +79,15 @@ public class Utils {
         text = text.replaceAll("_", "%2F");
         text = text.replaceAll("-", "%2B");
         return text;
+    }
+
+    public static Uri toChilChilUri(String title) {
+        String[] split = title.split(" ");
+        return Uri.parse(URL_CHIL_CHIL + split[0]);
+    }
+
+    public static boolean isChilChilMode(Context context) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPref.getBoolean("chilchil_visible", false);
     }
 }
