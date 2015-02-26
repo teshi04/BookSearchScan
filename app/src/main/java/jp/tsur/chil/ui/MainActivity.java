@@ -1,11 +1,14 @@
 package jp.tsur.chil.ui;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -30,8 +33,16 @@ public class MainActivity extends ActionBarActivity {
     @OnClick(R.id.scan_button)
     void scan() {
         Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-        intent.putExtra("SCAN_MODE", "PRODUCT_MODE");
-        startActivityForResult(intent, 0);
+        intent.putExtra("SCAN_FORMATS", "EAN_13");
+
+        try {
+            startActivityForResult(intent, 0);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, getString(R.string.error_toast_scaner_not_installed), Toast.LENGTH_LONG).show();
+            Uri uri = Uri.parse("market://details?id=com.google.zxing.client.android&hl=ja");
+            Intent zxingIntent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(zxingIntent);
+        }
     }
 
     @Override
