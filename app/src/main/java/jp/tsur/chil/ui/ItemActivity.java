@@ -8,7 +8,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +32,7 @@ import jp.tsur.chil.R;
 import jp.tsur.chil.api.AwsApi;
 import jp.tsur.chil.api.AwsService;
 import jp.tsur.chil.model.Author;
+import jp.tsur.chil.model.Book;
 import jp.tsur.chil.model.Item;
 import jp.tsur.chil.model.ItemAttributes;
 import jp.tsur.chil.model.ItemLookupResponse;
@@ -157,6 +157,8 @@ public class ItemActivity extends ActionBarActivity {
                         }
 
                         setResult(title, authorList, url, existsKindle);
+                        Utils.addScanHistory(ItemActivity.this, new Book(title, authorList, url, existsKindle));
+                        setResult(RESULT_OK);
                     }
 
                     @Override
@@ -166,7 +168,6 @@ public class ItemActivity extends ActionBarActivity {
                         } else {
                             Toast.makeText(ItemActivity.this, getString(R.string.toast_error_other), Toast.LENGTH_SHORT).show();
                             if (BuildConfig.DEBUG) {
-                                Log.d("bbs", error.getResponse().getUrl());
                                 error.printStackTrace();
                             }
                         }

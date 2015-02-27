@@ -21,9 +21,13 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import jp.tsur.chil.R;
 import jp.tsur.chil.model.Book;
+import jp.tsur.chil.utils.Utils;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    public static final int REQUEST_ZXING = 0;
+    public static final int REQUEST_ITEM = 1;
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
@@ -31,6 +35,8 @@ public class MainActivity extends ActionBarActivity {
     RecyclerView historyView;
     @InjectView(R.id.scan_button)
     FloatingActionButton scanButton;
+
+    ScanHistoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +51,7 @@ public class MainActivity extends ActionBarActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         historyView.setLayoutManager(mLayoutManager);
 
-        ArrayList<Book> books = new ArrayList<>();
-        books.add(new Book("夏の塩 (SHY NOVELS)", "榎田尤利", "", true));
-        books.add(new Book("永遠の昨日", "榎田尤利, 紺野 キタ", "", false));
-
-        ScanHistoryAdapter adapter = new ScanHistoryAdapter(this, books);
+        adapter = new ScanHistoryAdapter(this, Utils.getScanHistory(this));
         historyView.setAdapter(adapter);
     }
 
@@ -59,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
         intent.putExtra("SCAN_FORMATS", "EAN_13");
 
         try {
-            startActivityForResult(intent, 0);
+            startActivityForResult(intent, REQUEST_ZXING);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, getString(R.string.error_toast_scaner_not_installed), Toast.LENGTH_LONG).show();
             Uri uri = Uri.parse("market://details?id=com.google.zxing.client.android&hl=ja");
@@ -70,12 +72,24 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 0 && resultCode == RESULT_OK) {
-            String isbn = data.getStringExtra("SCAN_RESULT");
-
-            Intent intent = new Intent(MainActivity.this, ItemActivity.class);
-            intent.putExtra(ItemActivity.EXTRA_ISBN, isbn);
-            startActivity(intent);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_ZXING:
+                    String isbn = data.getStringExtra("SCAN_RESULT");
+                    Intent intent = new Intent(MainActivity.this, ItemActivity.class);
+                    intent.putExtra(ItemActivity.EXTRA_ISBN, isbn);
+                    startActivityForResult(intent, REQUEST_ITEM);
+                    break;
+                case REQUEST_ITEM:
+                    historyView.scrollToPosition(0);
+                    if (adapter.getItemCount() == Utils.SCAN_HISTORY_MAX) {
+                        adapter.remove(adapter.getItemCount() - 1);
+                    }
+                    ArrayList<Book> scanHistory = Utils.getScanHistory(this);
+                    Book book = scanHistory.get(0);
+                    adapter.insert(book, 0);
+                    break;
+            }
         }
     }
 

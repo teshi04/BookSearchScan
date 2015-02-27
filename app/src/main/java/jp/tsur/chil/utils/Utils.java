@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.Base64;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.NameValuePair;
 
@@ -15,9 +19,14 @@ import java.util.ArrayList;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import jp.tsur.chil.model.Book;
+
 public class Utils {
 
     private static final String URL_CHIL_CHIL = "http://www.chil-chil.net/sp/goodsList/?freeword=";
+    private static final String PREF_SCAN_HISTORY = "scan_history";
+    public static final int SCAN_HISTORY_MAX = 10;
+
 
     /**
      * HmacSHA256化する
@@ -89,5 +98,35 @@ public class Utils {
     public static boolean isChilChilMode(Context context) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPref.getBoolean("chilchil_visible", false);
+    }
+
+    public static ArrayList<Book> getScanHistory(Context context) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        String scanHistory = sharedPref.getString(PREF_SCAN_HISTORY, null);
+        if (TextUtils.isEmpty(scanHistory)) {
+            return new ArrayList<>();
+        }
+        return new Gson().fromJson(scanHistory, new TypeToken<ArrayList<Book>>() {
+        }.getType());
+    }
+
+    private static void saveScanHistory(Context context, ArrayList<Book> scanHistory) {
+        String json = new Gson().toJson(scanHistory);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(PREF_SCAN_HISTORY, json);
+        editor.apply();
+    }
+
+    public static void addScanHistory(Context context, Book book) {
+        ArrayList<Book> scanHistory = Utils.getScanHistory(context);
+        scanHistory.add(0, book);
+        Utils.saveScanHistory(context, scanHistory);
+    }
+
+    public static void removeScanHistory(Context context, int index) {
+        ArrayList<Book> scanHistory = Utils.getScanHistory(context);
+        scanHistory.remove(index);
+        Utils.saveScanHistory(context, scanHistory);
     }
 }
