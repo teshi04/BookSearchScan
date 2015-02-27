@@ -87,7 +87,7 @@ public class ItemActivity extends ActionBarActivity {
         }
     }
 
-    private void setResult(String title, String author, String amazonUrl, boolean kindleExist) {
+    private void setData(String title, String author, String amazonUrl, boolean kindleExist) {
         this.title = title;
         this.amazonUrl = amazonUrl;
         titleView.setText(title);
@@ -156,7 +156,7 @@ public class ItemActivity extends ActionBarActivity {
                             }
                         }
 
-                        setResult(title, authorList, url, existsKindle);
+                        setData(title, authorList, url, existsKindle);
                         Utils.addScanHistory(ItemActivity.this, new Book(title, authorList, url, existsKindle));
                         setResult(RESULT_OK);
                     }
