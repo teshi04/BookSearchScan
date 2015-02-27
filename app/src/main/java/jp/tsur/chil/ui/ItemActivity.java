@@ -161,14 +161,14 @@ public class ItemActivity extends ActionBarActivity {
 
                     @Override
                     public void failure(RetrofitError error) {
-                        if (BuildConfig.DEBUG) {
-                            Log.d("bbs", error.getResponse().getUrl());
-                            error.printStackTrace();
-                        }
                         if (error.getResponse() == null) {
                             Toast.makeText(ItemActivity.this, getString(R.string.toast_error_net), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(ItemActivity.this, getString(R.string.toast_error_other), Toast.LENGTH_SHORT).show();
+                            if (BuildConfig.DEBUG) {
+                                Log.d("bbs", error.getResponse().getUrl());
+                                error.printStackTrace();
+                            }
                         }
                         finish();
                     }
