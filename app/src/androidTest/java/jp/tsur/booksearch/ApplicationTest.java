@@ -1,4 +1,4 @@
-package jp.tsur.chil;
+package jp.tsur.booksearch;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

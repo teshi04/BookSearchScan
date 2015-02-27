@@ -1,4 +1,4 @@
-package jp.tsur.chil.ui;
+package jp.tsur.booksearch.ui;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import jp.tsur.chil.R;
-import jp.tsur.chil.model.Book;
-import jp.tsur.chil.utils.Utils;
+import jp.tsur.booksearch.R;
+import jp.tsur.booksearch.model.Book;
+import jp.tsur.booksearch.utils.Utils;
 
 
 public class MainActivity extends ActionBarActivity {

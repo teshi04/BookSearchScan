@@ -1,4 +1,4 @@
-package jp.tsur.chil.ui;
+package jp.tsur.booksearch.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import jp.tsur.chil.R;
+import jp.tsur.booksearch.R;
 
 
 public class SettingsActivity extends ActionBarActivity {

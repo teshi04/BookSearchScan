@@ -1,6 +1,6 @@
-package jp.tsur.chil.api;
+package jp.tsur.booksearch.api;
 
-import jp.tsur.chil.model.ItemLookupResponse;
+import jp.tsur.booksearch.model.ItemLookupResponse;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Query;

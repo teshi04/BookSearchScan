@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="jp.tsur.chil.ui.ItemActivity">
+    tools:context="jp.tsur.booksearch.ui.ItemActivity">
     <itemList
         android:id="@+id/action_settings"
         android:title="@string/action_settings"

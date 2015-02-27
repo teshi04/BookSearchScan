@@ -1,4 +1,4 @@
-package jp.tsur.chil.api;
+package jp.tsur.booksearch.api;
 
 import com.squareup.okhttp.MediaType;
 

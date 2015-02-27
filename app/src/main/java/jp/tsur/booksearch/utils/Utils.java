@@ -1,4 +1,4 @@
-package jp.tsur.chil.utils;
+package jp.tsur.booksearch.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import jp.tsur.chil.model.Book;
+import jp.tsur.booksearch.model.Book;
 
 public class Utils {
 

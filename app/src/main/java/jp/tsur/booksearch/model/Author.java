@@ -1,4 +1,4 @@
-package jp.tsur.chil.model;
+package jp.tsur.booksearch.model;
 
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Text;

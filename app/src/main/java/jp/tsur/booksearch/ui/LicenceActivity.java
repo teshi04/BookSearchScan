@@ -1,4 +1,4 @@
-package jp.tsur.chil.ui;
+package jp.tsur.booksearch.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -9,7 +9,7 @@ import android.webkit.WebView;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import jp.tsur.chil.R;
+import jp.tsur.booksearch.R;
 
 public class LicenceActivity extends ActionBarActivity {
 
