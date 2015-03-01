@@ -22,7 +22,7 @@
     <!-- 設定 -->
     <string name="title_activity_settings">設定</string>
     <string name="category_settings">全般</string>
-    <string name="pref_title_chilchil_visible">BLレビューサイト表示する</string>
+    <string name="pref_title_chilchil_visible">BLサイト・ちるちるを表示する</string>
     <string name="category_about">概要</string>
 
     <!-- ライセンス -->
