@@ -6,7 +6,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "jp.tsur.bl"
+        applicationId "jp.tsur.booksearch"
         minSdkVersion 18
         targetSdkVersion 21
         versionCode 1
