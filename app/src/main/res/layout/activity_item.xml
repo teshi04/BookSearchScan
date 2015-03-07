@@ -79,7 +79,7 @@
                     android:layout_gravity="right"
                     android:layout_marginTop="32dp"
                     android:drawablePadding="8dp"
-                    android:drawableStart="@drawable/ic_open_in_browser_black_24dp"
+                    android:drawableLeft="@drawable/ic_open_in_browser_black_24dp"
                     android:text="@string/label_open_amazon"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/black" />
@@ -91,7 +91,7 @@
                     android:layout_gravity="right"
                     android:layout_marginTop="2dp"
                     android:drawablePadding="8dp"
-                    android:drawableStart="@drawable/ic_open_in_browser_black_24dp"
+                    android:drawableLeft="@drawable/ic_open_in_browser_black_24dp"
                     android:text="@string/label_open_chilchil"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/black"
