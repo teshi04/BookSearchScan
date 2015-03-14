@@ -6,13 +6,15 @@ public class Book implements Serializable {
 
     private String title;
     private String author;
+    private String publicationDate;
     private String url;
     private boolean existsKindle;
 
-    public Book(String title, String author, String url, boolean existsKindle) {
+    public Book(String title, String author, String publicationDate, String url, boolean existsKindle) {
         this.title = title;
         this.author = author;
         this.url = url;
+        this.publicationDate = publicationDate;
         this.existsKindle = existsKindle;
     }
 
@@ -22,6 +24,10 @@ public class Book implements Serializable {
 
     public String getAuthor() {
         return author;
+    }
+
+    public String getPublicationDate() {
+        return publicationDate;
     }
 
     public String getTitle() {

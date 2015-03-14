@@ -46,10 +46,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="4dp"
                     android:textColor="@color/gray_800"
                     android:textSize="18sp"
                     tools:text="榎田尤利" />
+
+                <TextView
+                    android:id="@+id/publication_date_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/gray_800"
+                    android:textSize="18sp"
+                    tools:text="2009/7/30" />
 
                 <TextView
                     android:id="@+id/kindle_exist_view"

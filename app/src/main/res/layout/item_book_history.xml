@@ -17,11 +17,11 @@
             android:id="@+id/title_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="6dp"
             android:layout_marginRight="8dp"
-            android:text="夏の塩 (SHY NOVELS)夏の塩 (SHY NOVELS)夏の塩 (SHY NOVELS)夏の塩 (SHY NOVELS)"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            tools:text="夏の塩 (SHY NOVELS)夏の塩 (SHY NOVELS)夏の塩 (SHY NOVELS)夏の塩 (SHY NOVELS)" />
 
         <TextView
             android:id="@+id/author_view"
@@ -30,17 +30,30 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/title_view"
             android:layout_gravity="right"
+            android:layout_marginBottom="3dp"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/gray_800"
+            android:textSize="16sp"
+            tools:text="榎田尤利" />
+
+        <TextView
+            android:id="@+id/publication_date_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/author_view"
+            android:layout_gravity="right"
             android:layout_marginBottom="4dp"
             android:layout_marginRight="8dp"
-            android:text="榎田尤利"
             android:textColor="@color/gray_800"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:text="2009/7/30" />
 
         <TextView
             android:id="@+id/kindle_exist_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/author_view"
+            android:layout_below="@id/publication_date_view"
             android:background="@drawable/kindle_exist_background"
             android:text="@string/label_kindle_edition_exists"
             android:textColor="@color/orange_500"
@@ -52,7 +65,7 @@
             android:id="@+id/kindle_none_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/author_view"
+            android:layout_below="@id/publication_date_view"
             android:background="@drawable/kindle_none_background"
             android:text="@string/label_kindle_edition_non"
             android:textColor="@color/gray_900"
@@ -64,7 +77,7 @@
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/author_view"
+            android:layout_below="@id/publication_date_view"
             android:layout_gravity="right"
             android:background="@drawable/more_bg"
             android:contentDescription="@string/image_description_more" />

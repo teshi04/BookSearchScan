@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,8 @@ public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.
         TextView titleView;
         @InjectView(R.id.author_view)
         TextView authorView;
+        @InjectView(R.id.publication_date_view)
+        TextView publicationDateView;
         @InjectView(R.id.kindle_exist_view)
         TextView kindleExistView;
         @InjectView(R.id.kindle_none_view)
@@ -64,6 +67,9 @@ public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.
 
         holder.titleView.setText(book.getTitle());
         holder.authorView.setText(book.getAuthor());
+        holder.publicationDateView.setVisibility(
+                !TextUtils.isEmpty(book.getPublicationDate()) ? View.VISIBLE : View.GONE);
+        holder.publicationDateView.setText(book.getPublicationDate());
         if (book.isExistsKindle()) {
             holder.kindleExistView.setVisibility(View.VISIBLE);
             holder.kindleNoneView.setVisibility(View.GONE);

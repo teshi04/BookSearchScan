@@ -58,6 +58,8 @@ public class ItemActivity extends ActionBarActivity {
     TextView titleView;
     @InjectView(R.id.author_view)
     TextView authorView;
+    @InjectView(R.id.publication_date_view)
+    TextView publicationDateView;
     @InjectView(R.id.kindle_exist_view)
     TextView kindleExistView;
     @InjectView(R.id.kindle_none_view)
@@ -87,11 +89,12 @@ public class ItemActivity extends ActionBarActivity {
         }
     }
 
-    private void setData(String title, String author, String amazonUrl, boolean kindleExist) {
+    private void setData(String title, String author, String publicationDate, String amazonUrl, boolean kindleExist) {
         this.title = title;
         this.amazonUrl = amazonUrl;
         titleView.setText(title);
         authorView.setText(author);
+        publicationDateView.setText(publicationDate);
         if (kindleExist) {
             kindleExistView.setVisibility(View.VISIBLE);
         } else {
@@ -138,6 +141,7 @@ public class ItemActivity extends ActionBarActivity {
                         }
                         List<Item> itemList = itemLookupResponse.getItems().getItemList();
                         String title = "";
+                        String publicationDate = "";
                         String authorList = "";
                         String url = "";
 
@@ -148,6 +152,7 @@ public class ItemActivity extends ActionBarActivity {
                                 existsKindle = true;
                             } else {
                                 title = itemAttributes.getTitle();
+                                publicationDate = Utils.formatDate(itemAttributes.getPublicationDate());
                                 url = item.getDetailPageURL();
                                 for (Author author : itemAttributes.getAuthorList()) {
                                     authorList = TextUtils.isEmpty(authorList) ?
@@ -156,8 +161,8 @@ public class ItemActivity extends ActionBarActivity {
                             }
                         }
 
-                        setData(title, authorList, url, existsKindle);
-                        Utils.addScanHistory(ItemActivity.this, new Book(title, authorList, url, existsKindle));
+                        setData(title, authorList, publicationDate, url, existsKindle);
+                        Utils.addScanHistory(ItemActivity.this, new Book(title, authorList, publicationDate, url, existsKindle));
                         setResult(RESULT_OK);
                     }
 

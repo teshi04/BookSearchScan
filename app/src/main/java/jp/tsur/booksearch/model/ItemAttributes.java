@@ -18,6 +18,9 @@ public class ItemAttributes {
     @Element(name = "Title")
     String title;
 
+    @Element(name = "PublicationDate")
+    String publicationDate;
+
     public List<Author> getAuthorList() {
         return authorList;
     }
@@ -40,5 +43,13 @@ public class ItemAttributes {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getPublicationDate() {
+        return publicationDate;
+    }
+
+    public void setPublicationDate(String publicationDate) {
+        this.publicationDate = publicationDate;
     }
 }

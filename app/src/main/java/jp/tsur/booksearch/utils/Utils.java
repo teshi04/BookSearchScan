@@ -90,6 +90,15 @@ public class Utils {
         return text;
     }
 
+    /**
+     * "-" を "/" に置換して、日付を見やすくする
+     *
+     * @return 2009-7-30 → 2009/7/30
+     */
+    public static String formatDate(String text) {
+        return text.replaceAll("-", "/");
+    }
+
     public static Uri toChilChilUri(String title) {
         String[] split = title.split(" ");
         return Uri.parse(URL_CHIL_CHIL + split[0]);
