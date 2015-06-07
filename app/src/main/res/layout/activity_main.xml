@@ -26,5 +26,7 @@
             android:layout_margin="16dp"
             android:src="@drawable/ic_camera_alt_white_24dp"
             app:borderWidth="0dp" />
+
     </FrameLayout>
+
 </LinearLayout>

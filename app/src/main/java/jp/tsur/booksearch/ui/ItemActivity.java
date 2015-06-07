@@ -44,10 +44,9 @@ import retrofit.client.Response;
 
 public class ItemActivity extends AppCompatActivity {
 
+    public static final String EXTRA_ISBN = "isbn";
     private static final String AMAZON_URL = "GET\necs.amazonaws.jp\n/onca/xml\n";
     private static final String AMAZON_VERSION = "2011-08-01";
-    public static final String EXTRA_ISBN = "isbn";
-
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
     @InjectView(R.id.progress_bar)

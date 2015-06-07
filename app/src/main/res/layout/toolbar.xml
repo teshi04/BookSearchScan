@@ -4,6 +4,6 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    android:background="?attr/colorPrimary"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    android:background="?attr/colorPrimary" />
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />

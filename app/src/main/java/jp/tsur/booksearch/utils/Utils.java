@@ -23,10 +23,9 @@ import jp.tsur.booksearch.model.Book;
 
 public class Utils {
 
+    public static final int SCAN_HISTORY_MAX = 10;
     private static final String URL_CHIL_CHIL = "http://www.chil-chil.net/sp/goodsList/?freeword=";
     private static final String PREF_SCAN_HISTORY = "scan_history";
-    public static final int SCAN_HISTORY_MAX = 10;
-
 
     /**
      * HmacSHA256化する
