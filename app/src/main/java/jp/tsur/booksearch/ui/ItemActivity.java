@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -42,7 +42,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class ItemActivity extends ActionBarActivity {
+public class ItemActivity extends AppCompatActivity {
 
     private static final String AMAZON_URL = "GET\necs.amazonaws.jp\n/onca/xml\n";
     private static final String AMAZON_VERSION = "2011-08-01";
