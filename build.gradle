@@ -16,4 +16,23 @@ allprojects {
     repositories {
         jcenter()
     }
+
+
+    File propFile = rootProject.file("deploy.properties")
+    if (propFile.exists()) {
+        Properties props = new Properties()
+        props.load(new FileInputStream(rootProject.file("deploy.properties")))
+        props.entrySet().each {
+            project.ext.set(it.key, it.value)
+        }
+    }
+    [
+            'AWS_ACCESS_KEY',
+            'AWS_SECRET',
+            'ASSOCIATE_TAG'
+    ].each { prop ->
+        if (!project.has(prop)) {
+            throw new InvalidUserDataException("${prop} is not present.")
+        }
+    }
 }

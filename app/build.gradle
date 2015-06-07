@@ -11,6 +11,10 @@ android {
         targetSdkVersion 21
         versionCode 4
         versionName "1.1"
+
+        buildConfigField "String", "AWS_ACCESS_KEY", "\"${AWS_ACCESS_KEY}\""
+        buildConfigField "String", "AWS_SECRET", "\"${AWS_SECRET}\""
+        buildConfigField "String", "ASSOCIATE_TAG", "\"${ASSOCIATE_TAG}\""
     }
     buildTypes {
         release {

@@ -44,9 +44,14 @@ import retrofit.client.Response;
 
 public class ItemActivity extends AppCompatActivity {
 
+    public static final String AWS_ACCESS_KEY = BuildConfig.AWS_ACCESS_KEY;
+    public static final String AWS_SECRET = BuildConfig.AWS_SECRET;
+    public static final String ASSOCIATE_TAG = BuildConfig.ASSOCIATE_TAG;
     public static final String EXTRA_ISBN = "isbn";
+
     private static final String AMAZON_URL = "GET\necs.amazonaws.jp\n/onca/xml\n";
     private static final String AMAZON_VERSION = "2011-08-01";
+
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
     @InjectView(R.id.progress_bar)
@@ -113,8 +118,8 @@ public class ItemActivity extends AppCompatActivity {
         String timestamp = df.format(new Date());
 
         ArrayList<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("AWSAccessKeyId", getString(R.string.aws_access_key_id)));
-        params.add(new BasicNameValuePair("AssociateTag", getString(R.string.amazon_associate_tag)));
+        params.add(new BasicNameValuePair("AWSAccessKeyId", AWS_ACCESS_KEY));
+        params.add(new BasicNameValuePair("AssociateTag", ASSOCIATE_TAG));
         params.add(new BasicNameValuePair("IdType", "ISBN"));
         params.add(new BasicNameValuePair("ItemId", isbn));
         params.add(new BasicNameValuePair("Operation", "ItemLookup"));
@@ -124,11 +129,11 @@ public class ItemActivity extends AppCompatActivity {
         params.add(new BasicNameValuePair("Timestamp", timestamp));
         params.add(new BasicNameValuePair("Version", AMAZON_VERSION));
         String target = AMAZON_URL + Utils.getQuery(params);
-        String digest = Utils.toHmacSHA256(target, getString(R.string.aws_secret_access_key_id));
+        String digest = Utils.toHmacSHA256(target, AWS_SECRET);
         digest = Utils.urlEncode(digest);
 
         AwsApi api = AwsService.getAwsService();
-        api.getBook(getString(R.string.aws_access_key_id), getString(R.string.amazon_associate_tag), "ISBN", isbn,
+        api.getBook(AWS_ACCESS_KEY, ASSOCIATE_TAG, "ISBN", isbn,
                 "ItemLookup", "ItemAttributes", "Books", "AWSECommerceService",
                 timestamp, AMAZON_VERSION, digest, new Callback<ItemLookupResponse>() {
                     @Override
