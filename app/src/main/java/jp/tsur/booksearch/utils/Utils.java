@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import jp.tsur.booksearch.model.Book;
+import jp.tsur.booksearch.data.api.model.Book;
 
 public class Utils {
 
@@ -101,11 +101,6 @@ public class Utils {
     public static Uri toChilChilUri(String title) {
         String[] split = title.split(" ");
         return Uri.parse(URL_CHIL_CHIL + split[0]);
-    }
-
-    public static boolean isChilChilMode(Context context) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPref.getBoolean("chilchil_visible", false);
     }
 
     public static ArrayList<Book> getScanHistory(Context context) {

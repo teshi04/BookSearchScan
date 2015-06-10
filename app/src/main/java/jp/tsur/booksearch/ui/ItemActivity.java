@@ -24,18 +24,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import jp.tsur.booksearch.BuildConfig;
+import jp.tsur.booksearch.InjectionUtils;
 import jp.tsur.booksearch.R;
-import jp.tsur.booksearch.api.AwsApi;
-import jp.tsur.booksearch.api.AwsService;
-import jp.tsur.booksearch.model.Author;
-import jp.tsur.booksearch.model.Book;
-import jp.tsur.booksearch.model.Item;
-import jp.tsur.booksearch.model.ItemAttributes;
-import jp.tsur.booksearch.model.ItemLookupResponse;
+import jp.tsur.booksearch.data.ChilchilEnabled;
+import jp.tsur.booksearch.data.api.AwsService;
+import jp.tsur.booksearch.data.api.model.Author;
+import jp.tsur.booksearch.data.api.model.Book;
+import jp.tsur.booksearch.data.api.model.Item;
+import jp.tsur.booksearch.data.api.model.ItemAttributes;
+import jp.tsur.booksearch.data.api.model.ItemLookupResponse;
+import jp.tsur.booksearch.data.prefs.BooleanPreference;
 import jp.tsur.booksearch.utils.Utils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -71,6 +75,13 @@ public class ItemActivity extends AppCompatActivity {
     @InjectView(R.id.open_chil_button)
     Button openChilButton;
 
+    @Inject
+    @ChilchilEnabled
+    BooleanPreference chilchilEnabled;
+
+    @Inject
+    AwsService awsService;
+
     private String amazonUrl;
     private String title;
 
@@ -79,6 +90,8 @@ public class ItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
         ButterKnife.inject(this);
+
+        InjectionUtils.inject(this);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -105,7 +118,7 @@ public class ItemActivity extends AppCompatActivity {
             kindleNoneView.setVisibility(View.VISIBLE);
         }
 
-        if (Utils.isChilChilMode(this)) {
+        if (chilchilEnabled.get()) {
             openChilButton.setVisibility(View.VISIBLE);
         }
 
@@ -132,8 +145,7 @@ public class ItemActivity extends AppCompatActivity {
         String digest = Utils.toHmacSHA256(target, AWS_SECRET);
         digest = Utils.urlEncode(digest);
 
-        AwsApi api = AwsService.getAwsService();
-        api.getBook(AWS_ACCESS_KEY, ASSOCIATE_TAG, "ISBN", isbn,
+        awsService.getBook(AWS_ACCESS_KEY, ASSOCIATE_TAG, "ISBN", isbn,
                 "ItemLookup", "ItemAttributes", "Books", "AWSECommerceService",
                 timestamp, AMAZON_VERSION, digest, new Callback<ItemLookupResponse>() {
                     @Override

@@ -1,4 +1,4 @@
-package jp.tsur.booksearch.model;
+package jp.tsur.booksearch.data.api.model;
 
 import java.io.Serializable;
 

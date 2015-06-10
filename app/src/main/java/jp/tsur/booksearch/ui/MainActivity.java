@@ -15,11 +15,16 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import jp.tsur.booksearch.InjectionUtils;
 import jp.tsur.booksearch.R;
-import jp.tsur.booksearch.model.Book;
+import jp.tsur.booksearch.data.ChilchilEnabled;
+import jp.tsur.booksearch.data.api.model.Book;
+import jp.tsur.booksearch.data.prefs.BooleanPreference;
 import jp.tsur.booksearch.utils.Utils;
 
 
@@ -35,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
     @InjectView(R.id.scan_button)
     FloatingActionButton scanButton;
 
+    @Inject
+    @ChilchilEnabled
+    BooleanPreference chilchilEnabled;
+
     ScanHistoryAdapter adapter;
 
     @Override
@@ -44,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.inject(this);
 
         setSupportActionBar(toolbar);
+
+        InjectionUtils.inject(this);
 
         historyView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);

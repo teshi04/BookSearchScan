@@ -1,4 +1,4 @@
-package jp.tsur.booksearch.model;
+package jp.tsur.booksearch.data.api.model;
 
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;

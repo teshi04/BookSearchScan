@@ -16,13 +16,21 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import jp.tsur.booksearch.R;
-import jp.tsur.booksearch.model.Book;
+import jp.tsur.booksearch.data.ChilchilEnabled;
+import jp.tsur.booksearch.data.api.model.Book;
+import jp.tsur.booksearch.data.prefs.BooleanPreference;
 import jp.tsur.booksearch.utils.Utils;
 
 public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.ViewHolder> {
+
+    @Inject
+    @ChilchilEnabled
+    BooleanPreference chilchilEnabled;
 
     private Context context;
     private ArrayList<Book> bookList;
@@ -63,7 +71,7 @@ public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.
                 PopupMenu popup = new PopupMenu(context, holder.popMenu);
                 popup.getMenu().add(1, 0, 0, context.getString(R.string.label_open_amazon));
                 popup.getMenu().add(1, 99, 2, context.getString(R.string.label_delete_book_from_history));
-                if (Utils.isChilChilMode(context)) {
+                if (chilchilEnabled.get()) {
                     popup.getMenu().add(1, 1, 1, context.getString(R.string.label_open_chilchil));
                 }
                 popup.show();
