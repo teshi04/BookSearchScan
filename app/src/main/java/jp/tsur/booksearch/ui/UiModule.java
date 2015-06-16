@@ -1,6 +1,7 @@
 package jp.tsur.booksearch.ui;
 
 import dagger.Module;
+import jp.tsur.booksearch.ui.widget.BookCardView;
 
 /**
  * Created by teshi on 2015/06/10.
@@ -9,8 +10,7 @@ import dagger.Module;
         injects = {
                 MainActivity.class,
                 ItemActivity.class,
-                ScanHistoryAdapter.class
-
+                BookCardView.class
         })
 public class UiModule {
 }
