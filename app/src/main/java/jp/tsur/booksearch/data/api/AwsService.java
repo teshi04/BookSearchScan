@@ -1,11 +1,11 @@
-package jp.tsur.booksearch.api;
+package jp.tsur.booksearch.data.api;
 
-import jp.tsur.booksearch.model.ItemLookupResponse;
+import jp.tsur.booksearch.data.api.model.ItemLookupResponse;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Query;
 
-public interface AwsApi {
+public interface AwsService {
 
     @GET("/onca/xml")
     void getBook(
@@ -22,5 +22,4 @@ public interface AwsApi {
             @Query(value = "Signature", encodeValue = false) String signature, // http://docs.aws.amazon.com/AWSECommerceService/latest/DG/rest-signature.html
             Callback<ItemLookupResponse> callback
     );
-
 }
