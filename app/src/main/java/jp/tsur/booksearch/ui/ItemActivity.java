@@ -1,5 +1,6 @@
 package jp.tsur.booksearch.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -55,6 +56,12 @@ public class ItemActivity extends AppCompatActivity {
 
     private static final String AMAZON_URL = "GET\necs.amazonaws.jp\n/onca/xml\n";
     private static final String AMAZON_VERSION = "2011-08-01";
+
+    public static Intent createIntent(Context context, String isbn) {
+        Intent intent = new Intent(context, ItemActivity.class);
+        intent.putExtra(EXTRA_ISBN, isbn);
+        return intent;
+    }
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
@@ -112,11 +119,8 @@ public class ItemActivity extends AppCompatActivity {
         titleView.setText(title);
         authorView.setText(author);
         publicationDateView.setText(publicationDate);
-        if (kindleExist) {
-            kindleExistView.setVisibility(View.VISIBLE);
-        } else {
-            kindleNoneView.setVisibility(View.VISIBLE);
-        }
+        kindleExistView.setVisibility(kindleExist ? View.VISIBLE : View.GONE);
+        kindleNoneView.setVisibility(kindleExist ? View.GONE : View.VISIBLE);
 
         if (chilchilEnabled.get()) {
             openChilButton.setVisibility(View.VISIBLE);

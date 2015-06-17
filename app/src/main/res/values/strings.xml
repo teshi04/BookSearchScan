@@ -1,11 +1,10 @@
 <resources>
-    <string name="app_name">ﾊﾞｰｺｰﾄﾞ書籍検索</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">ﾊﾞｰｺｰﾄﾞ書籍検索</string>
 
     <!-- メイン -->
     <string name="action_settings">設定</string>
-    <string name="error_toast_scaner_not_installed">QR コードスキャナー をインストールしてください</string>
+    <string name="error_toast_scanner_not_installed">QR コードスキャナー をインストールしてください</string>
     <string name="image_description_more">more</string>
     <string name="label_delete_book_from_history">履歴から削除</string>
 

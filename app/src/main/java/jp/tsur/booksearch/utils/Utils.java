@@ -72,7 +72,6 @@ public class Utils {
         return result.toString();
     }
 
-
     /**
      * "-" と "_" も URL エンコードする
      *

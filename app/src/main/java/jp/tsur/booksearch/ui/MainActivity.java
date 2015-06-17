@@ -72,10 +72,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             startActivityForResult(intent, REQUEST_ZXING);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, getString(R.string.error_toast_scaner_not_installed), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.error_toast_scanner_not_installed), Toast.LENGTH_LONG).show();
             Uri uri = Uri.parse("market://details?id=com.google.zxing.client.android&hl=ja");
-            Intent zxingIntent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(zxingIntent);
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
         }
     }
 
@@ -85,8 +84,7 @@ public class MainActivity extends AppCompatActivity {
             switch (requestCode) {
                 case REQUEST_ZXING:
                     String isbn = data.getStringExtra("SCAN_RESULT");
-                    Intent intent = new Intent(MainActivity.this, ItemActivity.class);
-                    intent.putExtra(ItemActivity.EXTRA_ISBN, isbn);
+                    Intent intent = ItemActivity.createIntent(this, isbn);
                     startActivityForResult(intent, REQUEST_ITEM);
                     break;
                 case REQUEST_ITEM:
