@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -64,12 +65,29 @@ public class MainActivity extends AppCompatActivity {
 
         InjectionUtils.inject(this);
 
+        // RecyclerView
         historyView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         historyView.setLayoutManager(mLayoutManager);
 
         adapter = new ScanHistoryAdapter(this, Utils.getScanHistory(scanHistory.get()));
         historyView.setAdapter(adapter);
+
+        ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(
+                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                                          RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                        adapter.remove(viewHolder.getAdapterPosition());
+                    }
+
+                });
+        swipeToDismissTouchHelper.attachToRecyclerView(historyView);
     }
 
     @OnClick(R.id.scan_button)
