@@ -7,6 +7,7 @@
     <string name="error_toast_scanner_not_installed">QR コードスキャナー をインストールしてください</string>
     <string name="image_description_more">more</string>
     <string name="label_delete_book_from_history">履歴から削除</string>
+    <string name="toast_deleted">削除しました</string>
 
     <!-- 詳細 -->
     <string name="title_activity_item">書籍情報</string>
