@@ -23,8 +23,10 @@ import butterknife.OnClick;
 import jp.tsur.booksearch.InjectionUtils;
 import jp.tsur.booksearch.R;
 import jp.tsur.booksearch.data.ChilchilEnabled;
+import jp.tsur.booksearch.data.ScanHistory;
 import jp.tsur.booksearch.data.api.model.Book;
 import jp.tsur.booksearch.data.prefs.BooleanPreference;
+import jp.tsur.booksearch.data.prefs.StringPreference;
 import jp.tsur.booksearch.utils.Utils;
 
 
@@ -44,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
     @ChilchilEnabled
     BooleanPreference chilchilEnabled;
 
+    @Inject
+    @ScanHistory
+    StringPreference scanHistory;
+
     ScanHistoryAdapter adapter;
 
     @Override
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         historyView.setLayoutManager(mLayoutManager);
 
-        adapter = new ScanHistoryAdapter(this, Utils.getScanHistory(this));
+        adapter = new ScanHistoryAdapter(this, Utils.getScanHistory(scanHistory.get()));
         historyView.setAdapter(adapter);
     }
 
@@ -89,11 +95,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case REQUEST_ITEM:
                     historyView.scrollToPosition(0);
-                    if (adapter.getItemCount() == Utils.SCAN_HISTORY_MAX) {
-                        adapter.remove(adapter.getItemCount() - 1);
-                    }
-                    ArrayList<Book> scanHistory = Utils.getScanHistory(this);
-                    Book book = scanHistory.get(0);
+                    ArrayList<Book> books = Utils.getScanHistory(scanHistory.get());
+                    Book book = books.get(0);
                     adapter.insert(book, 0);
                     break;
             }

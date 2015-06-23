@@ -10,6 +10,7 @@ import dagger.Module;
 import dagger.Provides;
 import jp.tsur.booksearch.data.api.ApiModule;
 import jp.tsur.booksearch.data.prefs.BooleanPreference;
+import jp.tsur.booksearch.data.prefs.StringPreference;
 
 @Module(
         includes = ApiModule.class,
@@ -29,5 +30,12 @@ public class DataModule {
     @Singleton
     BooleanPreference provideChilchilEnabledPref(SharedPreferences pref) {
         return new BooleanPreference(pref, "chilchil_visible", false);
+    }
+
+    @Provides
+    @ScanHistory
+    @Singleton
+    StringPreference provideScanHistoryPref(SharedPreferences pref) {
+        return new StringPreference(pref, "scan_history", "");
     }
 }

@@ -34,6 +34,7 @@ import jp.tsur.booksearch.BuildConfig;
 import jp.tsur.booksearch.InjectionUtils;
 import jp.tsur.booksearch.R;
 import jp.tsur.booksearch.data.ChilchilEnabled;
+import jp.tsur.booksearch.data.ScanHistory;
 import jp.tsur.booksearch.data.api.AwsService;
 import jp.tsur.booksearch.data.api.model.Author;
 import jp.tsur.booksearch.data.api.model.Book;
@@ -41,6 +42,8 @@ import jp.tsur.booksearch.data.api.model.Item;
 import jp.tsur.booksearch.data.api.model.ItemAttributes;
 import jp.tsur.booksearch.data.api.model.ItemLookupResponse;
 import jp.tsur.booksearch.data.prefs.BooleanPreference;
+import jp.tsur.booksearch.data.prefs.StringPreference;
+import jp.tsur.booksearch.utils.StringUtils;
 import jp.tsur.booksearch.utils.Utils;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -85,6 +88,10 @@ public class ItemActivity extends AppCompatActivity {
     @Inject
     @ChilchilEnabled
     BooleanPreference chilchilEnabled;
+
+    @Inject
+    @ScanHistory
+    StringPreference books;
 
     @Inject
     AwsService awsService;
@@ -145,10 +152,11 @@ public class ItemActivity extends AppCompatActivity {
         params.add(new BasicNameValuePair("Service", "AWSECommerceService"));
         params.add(new BasicNameValuePair("Timestamp", timestamp));
         params.add(new BasicNameValuePair("Version", AMAZON_VERSION));
-        String target = AMAZON_URL + Utils.getQuery(params);
-        String digest = Utils.toHmacSHA256(target, AWS_SECRET);
-        digest = Utils.urlEncode(digest);
+        String target = AMAZON_URL + StringUtils.getQuery(params);
+        String digest = StringUtils.toHmacSHA256(target, AWS_SECRET);
+        digest = StringUtils.urlEncode(digest);
 
+        final String scanHistoryString = books.get();
         awsService.getBook(AWS_ACCESS_KEY, ASSOCIATE_TAG, "ISBN", isbn,
                 "ItemLookup", "ItemAttributes", "Books", "AWSECommerceService",
                 timestamp, AMAZON_VERSION, digest, new Callback<ItemLookupResponse>() {
@@ -172,7 +180,7 @@ public class ItemActivity extends AppCompatActivity {
                                 existsKindle = true;
                             } else {
                                 title = itemAttributes.getTitle();
-                                publicationDate = Utils.formatDate(itemAttributes.getPublicationDate());
+                                publicationDate = formatDate(itemAttributes.getPublicationDate());
                                 url = item.getDetailPageURL();
                                 for (Author author : itemAttributes.getAuthorList()) {
                                     authorList = TextUtils.isEmpty(authorList) ?
@@ -182,7 +190,11 @@ public class ItemActivity extends AppCompatActivity {
                         }
 
                         setData(title, authorList, publicationDate, url, existsKindle);
-                        Utils.addScanHistory(ItemActivity.this, new Book(title, authorList, publicationDate, url, existsKindle));
+
+                        ArrayList<Book> scanHistory = Utils.getScanHistory(scanHistoryString);
+                        scanHistory.add(0, new Book(title, authorList, publicationDate, url, existsKindle));
+                        books.set(Utils.saveScanHistory(scanHistory));
+
                         setResult(RESULT_OK);
                     }
 
@@ -204,7 +216,7 @@ public class ItemActivity extends AppCompatActivity {
 
     @OnClick(R.id.open_chil_button)
     void openChilChil() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Utils.toChilChilUri(title));
+        Intent intent = new Intent(Intent.ACTION_VIEW, StringUtils.toChilChilUri(title));
         startActivity(intent);
     }
 
@@ -213,6 +225,15 @@ public class ItemActivity extends AppCompatActivity {
         Uri uri = Uri.parse(amazonUrl);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
+    }
+
+    /**
+     * "-" を "/" に置換して、日付を見やすくする
+     *
+     * @return 2009-7-30 → 2009/7/30
+     */
+    public static String formatDate(String text) {
+        return text.replaceAll("-", "/");
     }
 
     @Override

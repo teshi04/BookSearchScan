@@ -11,9 +11,15 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
+import jp.tsur.booksearch.InjectionUtils;
 import jp.tsur.booksearch.R;
+import jp.tsur.booksearch.data.ScanHistory;
 import jp.tsur.booksearch.data.api.model.Book;
+import jp.tsur.booksearch.data.prefs.StringPreference;
 import jp.tsur.booksearch.ui.widget.BookCardView;
+import jp.tsur.booksearch.utils.StringUtils;
 import jp.tsur.booksearch.utils.Utils;
 
 public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.ViewHolder> {
@@ -21,9 +27,14 @@ public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.
     private Context context;
     private ArrayList<Book> bookList;
 
+    @Inject
+    @ScanHistory
+    StringPreference books;
+
     public ScanHistoryAdapter(Context context, ArrayList<Book> bookList) {
         this.context = context;
         this.bookList = bookList;
+        InjectionUtils.inject(context, this);
     }
 
     @Override
@@ -53,7 +64,7 @@ public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.
                         context.startActivity(intent);
                         return true;
                     case BookCardView.MENU_CHILCHIL:
-                        intent = new Intent(Intent.ACTION_VIEW, Utils.toChilChilUri(book.getTitle()));
+                        intent = new Intent(Intent.ACTION_VIEW, StringUtils.toChilChilUri(book.getTitle()));
                         context.startActivity(intent);
                         return true;
                     case BookCardView.MENU_DELETE:
@@ -82,7 +93,12 @@ public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.
 
     public void remove(int position) {
         bookList.remove(position);
-        Utils.removeScanHistory(context, position);
+
+        // 削除
+        ArrayList<Book> scanHistory = Utils.getScanHistory(books.get());
+        scanHistory.remove(position);
+        books.set(Utils.saveScanHistory(scanHistory));
+
         notifyItemRemoved(position);
     }
 

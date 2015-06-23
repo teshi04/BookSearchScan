@@ -7,7 +7,8 @@ import jp.tsur.booksearch.ui.widget.BookCardView;
         injects = {
                 MainActivity.class,
                 ItemActivity.class,
-                BookCardView.class
+                BookCardView.class,
+                ScanHistoryAdapter.class
         })
 public class UiModule {
 }
