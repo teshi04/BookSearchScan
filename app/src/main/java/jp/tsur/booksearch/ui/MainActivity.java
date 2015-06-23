@@ -53,20 +53,17 @@ public class MainActivity extends AppCompatActivity {
     @ScanHistory
     StringPreference scanHistory;
 
-    ScanHistoryAdapter adapter;
+    private ScanHistoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-
         setSupportActionBar(toolbar);
-
         InjectionUtils.inject(this);
 
         // RecyclerView
-        historyView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         historyView.setLayoutManager(mLayoutManager);
 
