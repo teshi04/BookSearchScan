@@ -31,14 +31,19 @@ public class BookCardView extends LinearLayout {
 
     @InjectView(R.id.title_view)
     TextView titleView;
+
     @InjectView(R.id.author_view)
     TextView authorView;
+
     @InjectView(R.id.publication_date_view)
     TextView publicationDateView;
+
     @InjectView(R.id.kindle_exist_view)
     TextView kindleExistView;
+
     @InjectView(R.id.kindle_none_view)
     TextView kindleNoneView;
+
     @InjectView(R.id.pop_menu)
     ImageButton popMenu;
 

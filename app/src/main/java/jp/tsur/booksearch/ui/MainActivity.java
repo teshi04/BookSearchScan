@@ -37,8 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
+
     @InjectView(R.id.history_view)
     RecyclerView historyView;
+
     @InjectView(R.id.scan_button)
     FloatingActionButton scanButton;
 

@@ -68,20 +68,28 @@ public class ItemActivity extends AppCompatActivity {
 
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
+
     @InjectView(R.id.progress_bar)
     ProgressBar progressBar;
+
     @InjectView(R.id.card_view)
     CardView cardView;
+
     @InjectView(R.id.title_view)
     TextView titleView;
+
     @InjectView(R.id.author_view)
     TextView authorView;
+
     @InjectView(R.id.publication_date_view)
     TextView publicationDateView;
+
     @InjectView(R.id.kindle_exist_view)
     TextView kindleExistView;
+
     @InjectView(R.id.kindle_none_view)
     TextView kindleNoneView;
+
     @InjectView(R.id.open_chil_button)
     Button openChilButton;
 
