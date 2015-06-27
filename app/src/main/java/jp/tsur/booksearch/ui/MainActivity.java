@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -67,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
         InjectionUtils.inject(this);
+
+        // FAB
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) scanButton.getLayoutParams();
+        params.setBehavior(new ScrollFABBehavior());
+        scanButton.setLayoutParams(params);
 
         // RecyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
