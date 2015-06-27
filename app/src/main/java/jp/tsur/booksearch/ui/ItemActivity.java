@@ -199,9 +199,9 @@ public class ItemActivity extends AppCompatActivity {
 
                         setData(title, authorList, publicationDate, url, existsKindle);
 
-                        ArrayList<Book> scanHistory = Utils.getScanHistory(scanHistoryString);
+                        ArrayList<Book> scanHistory = Utils.toList(scanHistoryString);
                         scanHistory.add(0, new Book(title, authorList, publicationDate, url, existsKindle));
-                        books.set(Utils.saveScanHistory(scanHistory));
+                        books.set(Utils.toJsonString(scanHistory));
 
                         setResult(RESULT_OK);
                     }

@@ -69,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
         InjectionUtils.inject(this);
 
         // RecyclerView
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        historyView.setLayoutManager(mLayoutManager);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        historyView.setLayoutManager(layoutManager);
 
-        adapter = new ScanHistoryAdapter(this, Utils.getScanHistory(scanHistory.get()));
+        adapter = new ScanHistoryAdapter(this, Utils.toList(scanHistory.get()));
         historyView.setAdapter(adapter);
 
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case REQUEST_ITEM:
                     historyView.scrollToPosition(0);
-                    ArrayList<Book> books = Utils.getScanHistory(scanHistory.get());
+                    ArrayList<Book> books = Utils.toList(scanHistory.get());
                     Book book = books.get(0);
                     adapter.insert(book, 0);
                     break;

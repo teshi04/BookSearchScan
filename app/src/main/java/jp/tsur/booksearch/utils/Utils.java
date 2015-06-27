@@ -11,7 +11,7 @@ import jp.tsur.booksearch.data.api.model.Book;
 
 public class Utils {
 
-    public static ArrayList<Book> getScanHistory(String scanHistory) {
+    public static ArrayList<Book> toList(String scanHistory) {
         if (TextUtils.isEmpty(scanHistory)) {
             return new ArrayList<>();
         }
@@ -19,7 +19,7 @@ public class Utils {
         }.getType());
     }
 
-    public static String saveScanHistory(ArrayList<Book> scanHistory) {
+    public static String toJsonString(ArrayList<Book> scanHistory) {
         return new Gson().toJson(scanHistory);
     }
 

@@ -95,9 +95,9 @@ public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.
         bookList.remove(position);
 
         // 削除
-        ArrayList<Book> scanHistory = Utils.getScanHistory(books.get());
+        ArrayList<Book> scanHistory = Utils.toList(books.get());
         scanHistory.remove(position);
-        books.set(Utils.saveScanHistory(scanHistory));
+        books.set(Utils.toJsonString(scanHistory));
 
         notifyItemRemoved(position);
     }
