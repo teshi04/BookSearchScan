@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                         adapter.remove(viewHolder.getAdapterPosition());
-                        Snackbar.make(container, R.string.toast_deleted, Snackbar.LENGTH_LONG)
+                        Snackbar.make(container, R.string.toast_deleted, Snackbar.LENGTH_SHORT)
                                 .show();
                     }
                 });
