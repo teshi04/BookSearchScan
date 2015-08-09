@@ -21,8 +21,8 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 import jp.tsur.booksearch.InjectionUtils;
 import jp.tsur.booksearch.R;
@@ -39,16 +39,16 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_ZXING = 0;
     public static final int REQUEST_ITEM = 1;
 
-    @InjectView(R.id.toolbar)
+    @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    @InjectView(R.id.container)
+    @Bind(R.id.container)
     View container;
 
-    @InjectView(R.id.history_view)
+    @Bind(R.id.history_view)
     RecyclerView historyView;
 
-    @InjectView(R.id.scan_button)
+    @Bind(R.id.scan_button)
     FloatingActionButton scanButton;
 
     @Inject
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         InjectionUtils.inject(this);
 

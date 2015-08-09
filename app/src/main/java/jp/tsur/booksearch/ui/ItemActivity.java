@@ -27,8 +27,8 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 import jp.tsur.booksearch.BuildConfig;
 import jp.tsur.booksearch.InjectionUtils;
@@ -66,31 +66,31 @@ public class ItemActivity extends AppCompatActivity {
         return intent;
     }
 
-    @InjectView(R.id.toolbar)
+    @Bind(R.id.toolbar)
     Toolbar toolbar;
 
-    @InjectView(R.id.progress_bar)
+    @Bind(R.id.progress_bar)
     ProgressBar progressBar;
 
-    @InjectView(R.id.card_view)
+    @Bind(R.id.card_view)
     CardView cardView;
 
-    @InjectView(R.id.title_view)
+    @Bind(R.id.title_view)
     TextView titleView;
 
-    @InjectView(R.id.author_view)
+    @Bind(R.id.author_view)
     TextView authorView;
 
-    @InjectView(R.id.publication_date_view)
+    @Bind(R.id.publication_date_view)
     TextView publicationDateView;
 
-    @InjectView(R.id.kindle_exist_view)
+    @Bind(R.id.kindle_exist_view)
     TextView kindleExistView;
 
-    @InjectView(R.id.kindle_none_view)
+    @Bind(R.id.kindle_none_view)
     TextView kindleNoneView;
 
-    @InjectView(R.id.open_chil_button)
+    @Bind(R.id.open_chil_button)
     Button openChilButton;
 
     @Inject
@@ -111,7 +111,7 @@ public class ItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
 
         InjectionUtils.inject(this);
 

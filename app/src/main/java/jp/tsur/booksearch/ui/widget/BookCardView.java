@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import javax.inject.Inject;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import butterknife.OnClick;
 import jp.tsur.booksearch.InjectionUtils;
 import jp.tsur.booksearch.R;
@@ -29,22 +29,22 @@ public class BookCardView extends LinearLayout {
     public static final int MENU_CHILCHIL = 1;
     public static final int MENU_DELETE = 2;
 
-    @InjectView(R.id.title_view)
+    @Bind(R.id.title_view)
     TextView titleView;
 
-    @InjectView(R.id.author_view)
+    @Bind(R.id.author_view)
     TextView authorView;
 
-    @InjectView(R.id.publication_date_view)
+    @Bind(R.id.publication_date_view)
     TextView publicationDateView;
 
-    @InjectView(R.id.kindle_exist_view)
+    @Bind(R.id.kindle_exist_view)
     TextView kindleExistView;
 
-    @InjectView(R.id.kindle_none_view)
+    @Bind(R.id.kindle_none_view)
     TextView kindleNoneView;
 
-    @InjectView(R.id.pop_menu)
+    @Bind(R.id.pop_menu)
     ImageButton popMenu;
 
     @Inject
@@ -71,7 +71,7 @@ public class BookCardView extends LinearLayout {
         InjectionUtils.inject(context, this);
         LayoutInflater inflater = LayoutInflater.from(context);
         inflater.inflate(R.layout.book_card_view, this, true);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         this.context = context;
     }
 
