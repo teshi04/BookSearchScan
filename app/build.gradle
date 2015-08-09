@@ -27,6 +27,15 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
+
+    productFlavors {
+        develop {
+            applicationId "jp.tsur.booksearch.develop"
+        }
+        production {
+            applicationId "jp.tsur.booksearch"
+        }
+    }
 }
 
 dependencies {
