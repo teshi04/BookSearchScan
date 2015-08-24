@@ -102,6 +102,10 @@ public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.
         notifyItemRemoved(position);
     }
 
+    public Book getItem(int position) {
+        return bookList.get(position);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         BookCardView bookCardView;

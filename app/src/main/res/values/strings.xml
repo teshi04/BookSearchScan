@@ -8,6 +8,7 @@
     <string name="image_description_more">more</string>
     <string name="label_delete_book_from_history">履歴から削除</string>
     <string name="toast_deleted">削除しました</string>
+    <string name="toast_undo">元に戻す</string>
 
     <!-- 詳細 -->
     <string name="title_activity_item">書籍情報</string>
