@@ -99,7 +99,7 @@ public class ItemActivity extends AppCompatActivity {
 
     @Inject
     @ScanHistory
-    StringPreference books;
+    StringPreference scanHistory;
 
     @Inject
     AwsService awsService;
@@ -164,14 +164,15 @@ public class ItemActivity extends AppCompatActivity {
         String digest = StringUtils.toHmacSHA256(target, AWS_SECRET);
         digest = StringUtils.urlEncode(digest);
 
-        final String scanHistoryString = books.get();
+        final String scanHistoryString = scanHistory.get();
         awsService.getBook(AWS_ACCESS_KEY, ASSOCIATE_TAG, "ISBN", isbn,
                 "ItemLookup", "ItemAttributes", "Books", "AWSECommerceService",
                 timestamp, AMAZON_VERSION, digest, new Callback<ItemLookupResponse>() {
                     @Override
                     public void success(ItemLookupResponse itemLookupResponse, Response response) {
                         if (itemLookupResponse.getItems().getItemList() == null) {
-                            Toast.makeText(ItemActivity.this, getString(R.string.toast_error_not_isbn), Toast.LENGTH_LONG).show();
+                            Toast.makeText(ItemActivity.this, getString(R.string.toast_error_not_isbn),
+                                    Toast.LENGTH_LONG).show();
                             finish();
                             return;
                         }
@@ -199,9 +200,10 @@ public class ItemActivity extends AppCompatActivity {
 
                         setData(title, authorList, publicationDate, url, existsKindle);
 
-                        ArrayList<Book> scanHistory = Utils.toList(scanHistoryString);
-                        scanHistory.add(0, new Book(title, authorList, publicationDate, url, existsKindle));
-                        books.set(Utils.toJsonString(scanHistory));
+                        // 保存
+                        ArrayList<Book> list = Utils.toList(scanHistoryString);
+                        list.add(0, new Book(title, authorList, publicationDate, url, existsKindle));
+                        scanHistory.set(Utils.toJsonString(list));
 
                         setResult(RESULT_OK);
                     }

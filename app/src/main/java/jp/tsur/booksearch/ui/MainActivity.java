@@ -93,15 +93,21 @@ public class MainActivity extends AppCompatActivity {
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                         final int targetPosition = viewHolder.getAdapterPosition();
                         final Book targetItem = adapter.getItem(targetPosition);
+
+                        // 削除
+                        ArrayList<Book> list = Utils.toList(scanHistory.get());
+                        list.remove(targetPosition);
+                        scanHistory.set(Utils.toJsonString(list));
                         adapter.remove(targetPosition);
-                        Snackbar.make(container, R.string.toast_deleted, Snackbar.LENGTH_LONG)
-                                .setAction(R.string.toast_undo, new View.OnClickListener() {
+
+                        Snackbar.make(container, R.string.snack_deleted, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.snack_undo, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
+                                        // 元に戻す
                                         ArrayList<Book> list = Utils.toList(scanHistory.get());
                                         list.add(targetPosition, targetItem);
                                         scanHistory.set(Utils.toJsonString(list));
-
                                         adapter.insert(targetItem, targetPosition);
                                     }
                                 })

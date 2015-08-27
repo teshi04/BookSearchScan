@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
 
     defaultConfig {
         applicationId "jp.tsur.booksearch"
         minSdkVersion 15
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 6
         versionName "1.2.1"
 
@@ -40,11 +40,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
     compile "com.jakewharton:butterknife:7.0.1"
     apt "com.jakewharton:butterknife:7.0.1"
     compile 'com.squareup.okhttp:okhttp:2.2.0'
-    compile ('org.simpleframework:simple-xml:2.7.1'){
+    compile('org.simpleframework:simple-xml:2.7.1') {
         exclude module: 'stax'
         exclude module: 'stax-api'
         exclude module: 'xpp3'
