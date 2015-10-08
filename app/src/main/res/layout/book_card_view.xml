@@ -10,19 +10,29 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical">
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp">
+
+            <ImageButton
+                android:id="@+id/pop_menu"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:background="@drawable/more_bg"
+                android:contentDescription="@string/image_description_more" />
 
             <TextView
                 android:id="@+id/title_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginRight="8dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_toLeftOf="@id/pop_menu"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
-                tools:text="夏の塩 (SHY NOVELS)夏の塩 (SHY NOVELS)夏の塩 (SHY NOVELS)夏の塩 (SHY NOVELS)" />
+                tools:text="夏の塩 (SHY NOVELS)" />
 
             <TextView
                 android:id="@+id/author_view"
@@ -54,7 +64,7 @@
                 android:id="@+id/kindle_exist_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/publication_date_view"
+                android:layout_alignBottom="@id/publication_date_view"
                 android:background="@drawable/kindle_exist_background"
                 android:text="@string/label_kindle_edition_exists"
                 android:textColor="@color/orange_500"
@@ -66,22 +76,12 @@
                 android:id="@+id/kindle_none_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/publication_date_view"
+                android:layout_alignBottom="@id/publication_date_view"
                 android:background="@drawable/kindle_none_background"
                 android:text="@string/label_kindle_edition_non"
                 android:textColor="@color/gray_900"
                 android:textSize="16sp"
                 android:visibility="gone" />
-
-            <ImageButton
-                android:id="@+id/pop_menu"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/publication_date_view"
-                android:layout_gravity="right"
-                android:background="@drawable/more_bg"
-                android:contentDescription="@string/image_description_more" />
 
         </RelativeLayout>
 
