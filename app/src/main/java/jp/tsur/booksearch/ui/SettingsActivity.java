@@ -16,16 +16,12 @@ import jp.tsur.booksearch.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {

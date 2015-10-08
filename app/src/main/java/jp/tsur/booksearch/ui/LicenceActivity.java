@@ -13,8 +13,6 @@ import jp.tsur.booksearch.R;
 
 public class LicenceActivity extends AppCompatActivity {
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
     @Bind(R.id.web_view)
     WebView webView;
 
@@ -24,7 +22,6 @@ public class LicenceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_licence);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {

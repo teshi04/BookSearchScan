@@ -1,25 +1,11 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="NewApi">
 
     <style name="BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar" />
 
-    <style name="AppThemeBase" parent="BaseTheme">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-    </style>
-
-    <style name="AppTheme" parent="AppThemeBase">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-
+    <style name="AppTheme" parent="BaseTheme">
         <item name="colorPrimary">@color/brown_800</item>
         <item name="colorPrimaryDark">@color/brown_900</item>
         <item name="colorAccent">@color/orange_500</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-
     </style>
 
 </resources>

@@ -10,7 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,9 +38,6 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_ZXING = 0;
     public static final int REQUEST_ITEM = 1;
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
     @Bind(R.id.container)
     View container;
 
@@ -66,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
         InjectionUtils.inject(this);
 
         // FAB

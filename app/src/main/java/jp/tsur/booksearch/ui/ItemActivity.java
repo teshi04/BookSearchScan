@@ -66,9 +66,6 @@ public class ItemActivity extends AppCompatActivity {
         return intent;
     }
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
     @Bind(R.id.progress_bar)
     ProgressBar progressBar;
 
@@ -115,9 +112,7 @@ public class ItemActivity extends AppCompatActivity {
 
         InjectionUtils.inject(this);
 
-        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
