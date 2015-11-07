@@ -3,11 +3,8 @@ package jp.tsur.booksearch.utils;
 import android.net.Uri;
 import android.util.Base64;
 
-import org.apache.http.NameValuePair;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -36,29 +33,6 @@ public class StringUtils {
             throw new RuntimeException();
         }
         return Base64.encodeToString(result, Base64.URL_SAFE | Base64.NO_WRAP);
-    }
-
-    public static String getQuery(ArrayList<NameValuePair> params) {
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-
-        for (NameValuePair pair : params) {
-            if (first) {
-                first = false;
-            } else {
-                result.append("&");
-            }
-
-            try {
-                result.append(URLEncoder.encode(pair.getName(), "UTF-8"));
-                result.append("=");
-                result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return result.toString();
     }
 
     /**

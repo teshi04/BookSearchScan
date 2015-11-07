@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,9 +14,6 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -143,19 +139,20 @@ public class ItemActivity extends AppCompatActivity {
     private void search(final String isbn) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.JAPAN);
         String timestamp = df.format(new Date());
+        Uri.Builder builder = new Uri.Builder();
+        builder.appendQueryParameter("AWSAccessKeyId", AWS_ACCESS_KEY);
+        builder.appendQueryParameter("AssociateTag", ASSOCIATE_TAG);
+        builder.appendQueryParameter("IdType", "ISBN");
+        builder.appendQueryParameter("ItemId", isbn);
+        builder.appendQueryParameter("Operation", "ItemLookup");
+        builder.appendQueryParameter("ResponseGroup", "ItemAttributes");
+        builder.appendQueryParameter("SearchIndex", "Books");
+        builder.appendQueryParameter("Service", "AWSECommerceService");
+        builder.appendQueryParameter("Timestamp", timestamp);
+        builder.appendQueryParameter("Version", AMAZON_VERSION);
 
-        ArrayList<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("AWSAccessKeyId", AWS_ACCESS_KEY));
-        params.add(new BasicNameValuePair("AssociateTag", ASSOCIATE_TAG));
-        params.add(new BasicNameValuePair("IdType", "ISBN"));
-        params.add(new BasicNameValuePair("ItemId", isbn));
-        params.add(new BasicNameValuePair("Operation", "ItemLookup"));
-        params.add(new BasicNameValuePair("ResponseGroup", "ItemAttributes"));
-        params.add(new BasicNameValuePair("SearchIndex", "Books"));
-        params.add(new BasicNameValuePair("Service", "AWSECommerceService"));
-        params.add(new BasicNameValuePair("Timestamp", timestamp));
-        params.add(new BasicNameValuePair("Version", AMAZON_VERSION));
-        String target = AMAZON_URL + StringUtils.getQuery(params);
+        String target = AMAZON_URL + builder.build().toString().replace("?", "");
+
         String digest = StringUtils.toHmacSHA256(target, AWS_SECRET);
         digest = StringUtils.urlEncode(digest);
 
