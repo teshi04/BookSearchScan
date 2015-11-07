@@ -9,8 +9,8 @@ android {
         applicationId "jp.tsur.booksearch"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 7
-        versionName "1.2.2"
+        versionCode 8
+        versionName "1.2.3"
 
         buildConfigField "String", "AWS_ACCESS_KEY", "\"${AWS_ACCESS_KEY}\""
         buildConfigField "String", "AWS_SECRET", "\"${AWS_SECRET}\""
