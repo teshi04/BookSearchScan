@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,9 +42,11 @@ import jp.tsur.booksearch.data.prefs.BooleanPreference;
 import jp.tsur.booksearch.data.prefs.StringPreference;
 import jp.tsur.booksearch.utils.StringUtils;
 import jp.tsur.booksearch.utils.Utils;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.Subscriptions;
 
 
 public class ItemActivity extends AppCompatActivity {
@@ -99,6 +102,7 @@ public class ItemActivity extends AppCompatActivity {
 
     private String amazonUrl;
     private String title;
+    private Subscription subscription = Subscriptions.empty();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +121,12 @@ public class ItemActivity extends AppCompatActivity {
         if (intent != null) {
             search(intent.getExtras().getString(EXTRA_ISBN));
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        subscription.unsubscribe();
+        super.onDestroy();
     }
 
     private void setData(String title, String author, String publicationDate, String amazonUrl, boolean kindleExist) {
@@ -152,23 +162,45 @@ public class ItemActivity extends AppCompatActivity {
         builder.appendQueryParameter("Version", AMAZON_VERSION);
 
         String target = AMAZON_URL + builder.build().toString().replace("?", "");
-
         String digest = StringUtils.toHmacSHA256(target, AWS_SECRET);
         digest = StringUtils.urlEncode(digest);
 
         final String scanHistoryString = scanHistory.get();
-        awsService.getBook(AWS_ACCESS_KEY, ASSOCIATE_TAG, "ISBN", isbn,
+
+        subscription = awsService.getBook(AWS_ACCESS_KEY, ASSOCIATE_TAG, "ISBN", isbn,
                 "ItemLookup", "ItemAttributes", "Books", "AWSECommerceService",
-                timestamp, AMAZON_VERSION, digest, new Callback<ItemLookupResponse>() {
+                timestamp, AMAZON_VERSION, digest)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ItemLookupResponse>() {
                     @Override
-                    public void success(ItemLookupResponse itemLookupResponse, Response response) {
-                        if (itemLookupResponse.getItems().getItemList() == null) {
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof UnknownHostException) {
+                            Toast.makeText(ItemActivity.this, getString(R.string.toast_error_net), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(ItemActivity.this, getString(R.string.toast_error_other), Toast.LENGTH_SHORT).show();
+                            if (BuildConfig.DEBUG) {
+                                e.printStackTrace();
+                            }
+                        }
+                        finish();
+                    }
+
+                    @Override
+                    public void onNext(ItemLookupResponse response) {
+                        if (response.getItems().getItemList() == null) {
                             Toast.makeText(ItemActivity.this, getString(R.string.toast_error_not_isbn),
                                     Toast.LENGTH_LONG).show();
                             finish();
                             return;
                         }
-                        List<Item> itemList = itemLookupResponse.getItems().getItemList();
+                        List<Item> itemList = response.getItems().getItemList();
                         String title = "";
                         String publicationDate = "";
                         String authorList = "";
@@ -199,22 +231,8 @@ public class ItemActivity extends AppCompatActivity {
 
                         setResult(RESULT_OK);
                     }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        if (error.getResponse() == null) {
-                            Toast.makeText(ItemActivity.this, getString(R.string.toast_error_net), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(ItemActivity.this, getString(R.string.toast_error_other), Toast.LENGTH_SHORT).show();
-                            if (BuildConfig.DEBUG) {
-                                error.printStackTrace();
-                            }
-                        }
-                        finish();
-                    }
                 });
     }
-
 
     @OnClick(R.id.open_chil_button)
     void openChilChil() {

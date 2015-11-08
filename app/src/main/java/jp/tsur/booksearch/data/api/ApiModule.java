@@ -5,7 +5,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit.RestAdapter;
+import retrofit.Retrofit;
+import retrofit.RxJavaCallAdapterFactory;
+import retrofit.SimpleXmlConverterFactory;
 
 @Module(
         complete = false,
@@ -17,16 +19,17 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    RestAdapter provideRestAdapter() {
-        return new RestAdapter.Builder()
-                .setEndpoint(API_URL)
-                .setConverter(new SimpleXMLConverter())
+    Retrofit provideRetrofit() {
+        return new Retrofit.Builder()
+                .baseUrl(API_URL)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(SimpleXmlConverterFactory.create())
                 .build();
     }
 
     @Provides
     @Singleton
-    AwsService provideAwsService(RestAdapter restAdapter) {
-        return restAdapter.create(AwsService.class);
+    AwsService provideAwsService(Retrofit retrofit) {
+        return retrofit.create(AwsService.class);
     }
 }
