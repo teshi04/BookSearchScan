@@ -2,17 +2,14 @@ package jp.tsur.booksearch.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.UnknownHostException;
@@ -25,9 +22,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import jp.tsur.booksearch.BuildConfig;
 import jp.tsur.booksearch.InjectionUtils;
 import jp.tsur.booksearch.R;
@@ -41,6 +35,7 @@ import jp.tsur.booksearch.data.api.model.ItemAttributes;
 import jp.tsur.booksearch.data.api.model.ItemLookupResponse;
 import jp.tsur.booksearch.data.prefs.BooleanPreference;
 import jp.tsur.booksearch.data.prefs.StringPreference;
+import jp.tsur.booksearch.databinding.ActivityItemBinding;
 import jp.tsur.booksearch.utils.StringUtils;
 import jp.tsur.booksearch.utils.Utils;
 import retrofit2.adapter.rxjava.HttpException;
@@ -69,30 +64,6 @@ public class ItemActivity extends AppCompatActivity {
         return intent;
     }
 
-    @Bind(R.id.progress_bar)
-    ProgressBar progressBar;
-
-    @Bind(R.id.card_view)
-    CardView cardView;
-
-    @Bind(R.id.title_view)
-    TextView titleView;
-
-    @Bind(R.id.author_view)
-    TextView authorView;
-
-    @Bind(R.id.publication_date_view)
-    TextView publicationDateView;
-
-    @Bind(R.id.kindle_exist_view)
-    TextView kindleExistView;
-
-    @Bind(R.id.kindle_none_view)
-    TextView kindleNoneView;
-
-    @Bind(R.id.open_chil_button)
-    Button openChilButton;
-
     @Inject
     @ChilchilEnabled
     BooleanPreference chilchilEnabled;
@@ -106,13 +77,14 @@ public class ItemActivity extends AppCompatActivity {
 
     private String amazonUrl;
     private String title;
+    private ActivityItemBinding binding;
     private Subscription subscription = Subscriptions.empty();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item);
-        ButterKnife.bind(this);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_item);
+        binding.setActivity(this);
 
         InjectionUtils.inject(this);
 
@@ -133,21 +105,17 @@ public class ItemActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private void setData(String title, String author, String publicationDate, String amazonUrl, boolean kindleExist) {
-        this.title = title;
-        this.amazonUrl = amazonUrl;
-        titleView.setText(title);
-        authorView.setText(author);
-        publicationDateView.setText(publicationDate);
-        kindleExistView.setVisibility(kindleExist ? View.VISIBLE : View.GONE);
-        kindleNoneView.setVisibility(kindleExist ? View.GONE : View.VISIBLE);
+    private void setData(Book book) {
+        this.title = book.getTitle();
+        this.amazonUrl = book.getUrl();
 
+        binding.setBook(book);
         if (chilchilEnabled.get()) {
-            openChilButton.setVisibility(View.VISIBLE);
+            binding.chilchilButton.setVisibility(View.VISIBLE);
         }
 
-        progressBar.setVisibility(View.GONE);
-        cardView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.GONE);
+        binding.cardView.setVisibility(View.VISIBLE);
     }
 
     private void search(final String isbn) {
@@ -238,11 +206,11 @@ public class ItemActivity extends AppCompatActivity {
                             }
                         }
 
-                        setData(title, authorList, publicationDate, url, existsKindle);
-
+                        Book book = new Book(title, authorList, publicationDate, url, existsKindle);
+                        setData(book);
                         // 保存
                         ArrayList<Book> list = Utils.toList(scanHistoryString);
-                        list.add(0, new Book(title, authorList, publicationDate, url, existsKindle));
+                        list.add(0, book);
                         scanHistory.set(Utils.toJsonString(list));
 
                         setResult(RESULT_OK);
@@ -250,14 +218,12 @@ public class ItemActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick(R.id.open_chil_button)
-    void openChilChil() {
+    public void onChilChilButtonClick(View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW, StringUtils.toChilChilUri(title));
         startActivity(intent);
     }
 
-    @OnClick(R.id.open_amazon_button)
-    void openAmazon() {
+    public void onAmazonButtonClick(View view) {
         Uri uri = Uri.parse(amazonUrl);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
