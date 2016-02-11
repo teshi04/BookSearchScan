@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -42,9 +43,12 @@ import jp.tsur.booksearch.data.prefs.BooleanPreference;
 import jp.tsur.booksearch.data.prefs.StringPreference;
 import jp.tsur.booksearch.utils.StringUtils;
 import jp.tsur.booksearch.utils.Utils;
+import retrofit2.adapter.rxjava.HttpException;
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.Subscriptions;
 
@@ -171,6 +175,21 @@ public class ItemActivity extends AppCompatActivity {
                 "ItemLookup", "ItemAttributes", "Books", "AWSECommerceService",
                 timestamp, AMAZON_VERSION, digest)
                 .subscribeOn(Schedulers.newThread())
+                .retryWhen(new Func1<Observable<? extends Throwable>, Observable<Long>>() {
+                    @Override
+                    public Observable<Long> call(Observable<? extends Throwable> observable) {
+                        return observable.flatMap(new Func1<Throwable, Observable<Long>>() {
+                            @Override
+                            public Observable<Long> call(Throwable e) {
+                                if (e instanceof HttpException) {
+                                    // 結構な確率で 503 エラーが出るが、リトライすれば大体成功する
+                                    return Observable.timer(3, TimeUnit.SECONDS);
+                                }
+                                return Observable.error(e);
+                            }
+                        });
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ItemLookupResponse>() {
                     @Override
@@ -180,14 +199,11 @@ public class ItemActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
                         if (e instanceof UnknownHostException) {
                             Toast.makeText(ItemActivity.this, getString(R.string.toast_error_net), Toast.LENGTH_SHORT).show();
                         } else {
+                            // 不明なエラー
                             Toast.makeText(ItemActivity.this, getString(R.string.toast_error_other), Toast.LENGTH_SHORT).show();
-                            if (BuildConfig.DEBUG) {
-                                e.printStackTrace();
-                            }
                         }
                         finish();
                     }
