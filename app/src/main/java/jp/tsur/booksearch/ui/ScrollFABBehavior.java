@@ -2,9 +2,11 @@ package jp.tsur.booksearch.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -16,6 +18,10 @@ public class ScrollFABBehavior extends FloatingActionButton.Behavior {
     private static final int DURATION_TIME = 200;
     private int translationY;
     private boolean animatingRunning;
+
+    public ScrollFABBehavior(Context context, AttributeSet attrs) {
+        super();
+    }
 
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout,

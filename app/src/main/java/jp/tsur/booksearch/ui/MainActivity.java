@@ -4,16 +4,15 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,6 +29,8 @@ import jp.tsur.booksearch.data.ScanHistory;
 import jp.tsur.booksearch.data.api.model.Book;
 import jp.tsur.booksearch.data.prefs.BooleanPreference;
 import jp.tsur.booksearch.data.prefs.StringPreference;
+import jp.tsur.booksearch.ui.widget.BookCardView;
+import jp.tsur.booksearch.utils.StringUtils;
 import jp.tsur.booksearch.utils.Utils;
 
 
@@ -64,16 +65,34 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         InjectionUtils.inject(this);
 
-        // FAB
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) scanButton.getLayoutParams();
-        params.setBehavior(new ScrollFABBehavior());
-        scanButton.setLayoutParams(params);
-
-        // RecyclerView
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        historyView.setLayoutManager(layoutManager);
-
-        adapter = new ScanHistoryAdapter(this, Utils.toList(scanHistory.get()));
+        adapter = new ScanHistoryAdapter(Utils.toList(scanHistory.get())) {
+            @Override
+            public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                final ViewHolder viewHolder = super.onCreateViewHolder(parent, viewType);
+                viewHolder.bookCardView.setBookCardListener(new BookCardView.BookCardListener() {
+                    @Override
+                    public boolean popMenuClicked(int itemId) {
+                        Book book = adapter.getItem(viewHolder.getAdapterPosition());
+                        Intent intent;
+                        switch (itemId) {
+                            case BookCardView.MENU_AMAZON:
+                                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(book.getUrl()));
+                                startActivity(intent);
+                                return true;
+                            case BookCardView.MENU_CHILCHIL:
+                                intent = new Intent(Intent.ACTION_VIEW, StringUtils.toChilChilUri(book.getTitle()));
+                                startActivity(intent);
+                                return true;
+                            case BookCardView.MENU_DELETE:
+                                remove(viewHolder.getAdapterPosition());
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+                return viewHolder;
+            }
+        };
         historyView.setAdapter(adapter);
 
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(
