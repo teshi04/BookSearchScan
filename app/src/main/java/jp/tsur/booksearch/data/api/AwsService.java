@@ -1,8 +1,8 @@
 package jp.tsur.booksearch.data.api;
 
 import jp.tsur.booksearch.data.api.model.ItemLookupResponse;
-import retrofit.http.GET;
-import retrofit.http.Query;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 import rx.Observable;
 
 public interface AwsService {
