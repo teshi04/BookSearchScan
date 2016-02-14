@@ -30,10 +30,7 @@ public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Book book = bookList.get(position);
-        holder.bookCardView.setData(book.getTitle(),
-                book.getAuthor(),
-                book.getPublicationDate(),
-                book.isExistsKindle());
+        holder.bookCardView.setData(book);
     }
 
     @Override

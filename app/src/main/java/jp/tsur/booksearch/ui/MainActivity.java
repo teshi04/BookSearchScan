@@ -2,9 +2,9 @@ package jp.tsur.booksearch.ui;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -19,9 +19,6 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import jp.tsur.booksearch.InjectionUtils;
 import jp.tsur.booksearch.R;
 import jp.tsur.booksearch.data.ChilchilEnabled;
@@ -29,6 +26,7 @@ import jp.tsur.booksearch.data.ScanHistory;
 import jp.tsur.booksearch.data.api.model.Book;
 import jp.tsur.booksearch.data.prefs.BooleanPreference;
 import jp.tsur.booksearch.data.prefs.StringPreference;
+import jp.tsur.booksearch.databinding.ActivityMainBinding;
 import jp.tsur.booksearch.ui.widget.BookCardView;
 import jp.tsur.booksearch.utils.StringUtils;
 import jp.tsur.booksearch.utils.Utils;
@@ -39,15 +37,6 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_ZXING = 0;
     public static final int REQUEST_ITEM = 1;
 
-    @Bind(R.id.container)
-    View container;
-
-    @Bind(R.id.history_view)
-    RecyclerView historyView;
-
-    @Bind(R.id.scan_button)
-    FloatingActionButton scanButton;
-
     @Inject
     @ChilchilEnabled
     BooleanPreference chilchilEnabled;
@@ -56,13 +45,14 @@ public class MainActivity extends AppCompatActivity {
     @ScanHistory
     StringPreference scanHistory;
 
+    private ActivityMainBinding binding;
     private ScanHistoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setActivity(this);
         InjectionUtils.inject(this);
 
         adapter = new ScanHistoryAdapter(Utils.toList(scanHistory.get())) {
@@ -93,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 return viewHolder;
             }
         };
-        historyView.setAdapter(adapter);
+        binding.recyclerView.setAdapter(adapter);
 
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(
                 new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -114,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                         scanHistory.set(Utils.toJsonString(list));
                         adapter.remove(targetPosition);
 
-                        Snackbar.make(container, R.string.snack_deleted, Snackbar.LENGTH_LONG)
+                        Snackbar.make(binding.container, R.string.snack_deleted, Snackbar.LENGTH_LONG)
                                 .setAction(R.string.snack_undo, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -128,11 +118,10 @@ public class MainActivity extends AppCompatActivity {
                                 .show();
                     }
                 });
-        swipeToDismissTouchHelper.attachToRecyclerView(historyView);
+        swipeToDismissTouchHelper.attachToRecyclerView(binding.recyclerView);
     }
 
-    @OnClick(R.id.scan_button)
-    void scan() {
+    public void onScanButtonClick(View view) {
         Intent intent = new Intent("com.google.zxing.client.android.SCAN");
         intent.putExtra("SCAN_FORMATS", "EAN_13");
 
@@ -155,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(intent, REQUEST_ITEM);
                     break;
                 case REQUEST_ITEM:
-                    historyView.scrollToPosition(0);
+                    binding.recyclerView.scrollToPosition(0);
                     ArrayList<Book> books = Utils.toList(scanHistory.get());
                     Book book = books.get(0);
                     adapter.insert(book, 0);

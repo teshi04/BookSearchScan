@@ -1,26 +1,23 @@
 package jp.tsur.booksearch.ui.widget;
 
 import android.content.Context;
-import android.text.TextUtils;
+import android.databinding.DataBindingUtil;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import jp.tsur.booksearch.InjectionUtils;
 import jp.tsur.booksearch.R;
 import jp.tsur.booksearch.data.ChilchilEnabled;
+import jp.tsur.booksearch.data.api.model.Book;
 import jp.tsur.booksearch.data.prefs.BooleanPreference;
+import jp.tsur.booksearch.databinding.ViewBookCardBinding;
 
 
 public class BookCardView extends LinearLayout {
@@ -29,29 +26,12 @@ public class BookCardView extends LinearLayout {
     public static final int MENU_CHILCHIL = 1;
     public static final int MENU_DELETE = 2;
 
-    @Bind(R.id.title_view)
-    TextView titleView;
-
-    @Bind(R.id.author_view)
-    TextView authorView;
-
-    @Bind(R.id.publication_date_view)
-    TextView publicationDateView;
-
-    @Bind(R.id.kindle_exist_view)
-    TextView kindleExistView;
-
-    @Bind(R.id.kindle_none_view)
-    TextView kindleNoneView;
-
-    @Bind(R.id.pop_menu)
-    ImageButton popMenu;
-
     @Inject
     @ChilchilEnabled
     BooleanPreference chilchilEnabled;
 
     private Context context;
+    private ViewBookCardBinding binding;
     private BookCardListener listener;
 
     public interface BookCardListener {
@@ -68,10 +48,9 @@ public class BookCardView extends LinearLayout {
 
     public BookCardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.view_book_card, this, true);
+        binding.setView(this);
         InjectionUtils.inject(context, this);
-        LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.book_card_view, this, true);
-        ButterKnife.bind(this);
         this.context = context;
     }
 
@@ -79,19 +58,12 @@ public class BookCardView extends LinearLayout {
         this.listener = listener;
     }
 
-    public void setData(String title, String author, String date, boolean kindleExists) {
-        titleView.setText(title);
-        authorView.setText(author);
-        publicationDateView.setVisibility(
-                !TextUtils.isEmpty(date) ? View.VISIBLE : View.GONE);
-        publicationDateView.setText(date);
-        kindleExistView.setVisibility(kindleExists ? View.VISIBLE : View.GONE);
-        kindleNoneView.setVisibility(kindleExists ? View.GONE : View.VISIBLE);
+    public void setData(Book book) {
+        binding.setBook(book);
     }
 
-    @OnClick(R.id.pop_menu)
-    void popMenuClicked() {
-        PopupMenu popup = new PopupMenu(context, popMenu);
+    public void onPopMenuClick(View view) {
+        PopupMenu popup = new PopupMenu(context, binding.popMenu);
         Menu menu = popup.getMenu();
         menu.add(1, MENU_AMAZON, 0, R.string.label_open_amazon);
         if (chilchilEnabled.get()) {
