@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
         binding.setActivity(this);
         InjectionUtils.inject(this);
 
-        adapter = new ScanHistoryAdapter(Utils.toList(scanHistory.get())) {
+        final ArrayList<Book> bookList = Utils.toList(scanHistory.get());
+        adapter = new ScanHistoryAdapter(bookList) {
             @Override
             public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 final ViewHolder viewHolder = super.onCreateViewHolder(parent, viewType);
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setVisibility(bookList.isEmpty() ? View.GONE : View.VISIBLE);
+        binding.emptyText.setVisibility(bookList.isEmpty() ? View.VISIBLE : View.GONE);
 
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(
                 new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -99,19 +102,15 @@ public class MainActivity extends AppCompatActivity {
                         final Book targetItem = adapter.getItem(targetPosition);
 
                         // 削除
-                        ArrayList<Book> list = Utils.toList(scanHistory.get());
-                        list.remove(targetPosition);
-                        scanHistory.set(Utils.toJsonString(list));
-                        adapter.remove(targetPosition);
-
+                        bookList.remove(targetPosition);
+                        scanHistory.set(Utils.toJsonString(bookList));
                         Snackbar.make(binding.container, R.string.snack_deleted, Snackbar.LENGTH_LONG)
                                 .setAction(R.string.snack_undo, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         // 元に戻す
-                                        ArrayList<Book> list = Utils.toList(scanHistory.get());
-                                        list.add(targetPosition, targetItem);
-                                        scanHistory.set(Utils.toJsonString(list));
+                                        bookList.add(targetPosition, targetItem);
+                                        scanHistory.set(Utils.toJsonString(bookList));
                                         adapter.insert(targetItem, targetPosition);
                                     }
                                 })
@@ -148,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
                     ArrayList<Book> books = Utils.toList(scanHistory.get());
                     Book book = books.get(0);
                     adapter.insert(book, 0);
+                    binding.recyclerView.setVisibility(View.VISIBLE);
+                    binding.emptyText.setVisibility(View.GONE);
                     break;
             }
         }
