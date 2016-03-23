@@ -95,7 +95,7 @@ public class ItemActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            search(intent.getExtras().getString(EXTRA_ISBN));
+            search(intent.getExtras().getString(EXTRA_ISBN), savedInstanceState == null);
         }
     }
 
@@ -118,7 +118,7 @@ public class ItemActivity extends AppCompatActivity {
         binding.cardView.setVisibility(View.VISIBLE);
     }
 
-    private void search(final String isbn) {
+    private void search(final String isbn, final boolean save) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.JAPAN);
         String timestamp = df.format(new Date());
         Uri.Builder builder = new Uri.Builder();
@@ -208,11 +208,11 @@ public class ItemActivity extends AppCompatActivity {
 
                         Book book = new Book(title, authorList, publicationDate, url, existsKindle);
                         setData(book);
-                        // 保存
-                        ArrayList<Book> list = Utils.toList(scanHistoryString);
-                        list.add(0, book);
-                        scanHistory.set(Utils.toJsonString(list));
-
+                        if (save) {
+                            ArrayList<Book> list = Utils.toList(scanHistoryString);
+                            list.add(0, book);
+                            scanHistory.set(Utils.toJsonString(list));
+                        }
                         setResult(RESULT_OK);
                     }
                 });

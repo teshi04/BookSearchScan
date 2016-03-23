@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
@@ -102,14 +103,13 @@ public class MainActivity extends AppCompatActivity {
                         final Book targetItem = adapter.getItem(targetPosition);
 
                         // 削除
-                        bookList.remove(targetPosition);
-                        scanHistory.set(Utils.toJsonString(bookList));
+                        adapter.remove(targetPosition);
+                        scanHistory.set(!bookList.isEmpty() ? Utils.toJsonString(bookList) : "");
                         Snackbar.make(binding.container, R.string.snack_deleted, Snackbar.LENGTH_LONG)
                                 .setAction(R.string.snack_undo, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         // 元に戻す
-                                        bookList.add(targetPosition, targetItem);
                                         scanHistory.set(Utils.toJsonString(bookList));
                                         adapter.insert(targetItem, targetPosition);
                                     }
