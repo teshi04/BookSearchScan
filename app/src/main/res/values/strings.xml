@@ -11,7 +11,6 @@
     <string name="snack_undo">元に戻す</string>
     <string name="list_empty">履歴はありません。\n カメラボタンをタップして、\n本のバーコードを読み取ってください。</string>
 
-
     <!-- 詳細 -->
     <string name="title_activity_item">書籍情報</string>
     <string name="label_kindle_edition_exists">Kindle版 あり</string>
