@@ -96,25 +96,41 @@
 
                 <Button
                     android:id="@+id/amazon_button"
-                    android:layout_width="200dp"
+                    android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginTop="32dp"
                     android:drawableLeft="@drawable/ic_open_in_browser_black_24dp"
                     android:drawablePadding="8dp"
+                    android:gravity="left|center_vertical"
                     android:onClick="@{activity.onAmazonButtonClick}"
                     android:text="@string/label_open_amazon"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/black" />
 
                 <Button
-                    android:id="@+id/chilchil_button"
-                    android:layout_width="200dp"
+                    android:id="@+id/goodreads_button"
+                    android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginTop="2dp"
                     android:drawableLeft="@drawable/ic_open_in_browser_black_24dp"
                     android:drawablePadding="8dp"
+                    android:gravity="left|center_vertical"
+                    android:onClick="@{activity.onGoodreadsButtonClick}"
+                    android:text="@string/label_open_goodreads"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/black" />
+
+                <Button
+                    android:id="@+id/chilchil_button"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="2dp"
+                    android:drawableLeft="@drawable/ic_open_in_browser_black_24dp"
+                    android:drawablePadding="8dp"
+                    android:gravity="left|center_vertical"
                     android:onClick="@{activity.onChilChilButtonClick}"
                     android:text="@string/label_open_chilchil"
                     android:textAppearance="?android:attr/textAppearanceMedium"

@@ -77,6 +77,7 @@ public class ItemActivity extends AppCompatActivity {
 
     private String amazonUrl;
     private String title;
+    private String isbn;
     private ActivityItemBinding binding;
     private Subscription subscription = Subscriptions.empty();
 
@@ -108,6 +109,7 @@ public class ItemActivity extends AppCompatActivity {
     private void setData(Book book) {
         this.title = book.getTitle();
         this.amazonUrl = book.getUrl();
+        this.isbn = isbn;
 
         binding.setBook(book);
         if (chilchilEnabled.get()) {
@@ -226,6 +228,11 @@ public class ItemActivity extends AppCompatActivity {
     public void onAmazonButtonClick(View view) {
         Uri uri = Uri.parse(amazonUrl);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
+
+    public void onGoodreadsButtonClick(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, StringUtils.toGoodreads(isbn));
         startActivity(intent);
     }
 
