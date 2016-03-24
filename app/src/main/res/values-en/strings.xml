@@ -17,6 +17,7 @@
     <string name="label_kindle_edition_non">Kindle</string>
     <string name="label_open_chilchil">ちるちる で開く</string>
     <string name="label_open_amazon">Open Amazon</string>
+    <string name="label_open_goodreads">Open goodreads</string>
     <string name="toast_error_net">Network is unavailable.</string>
     <string name="toast_error_other">Oh no! Please try that again.</string>
     <string name="toast_error_not_isbn">This is not ISBN code.</string>

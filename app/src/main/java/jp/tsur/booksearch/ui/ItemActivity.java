@@ -206,7 +206,7 @@ public class ItemActivity extends AppCompatActivity {
                             }
                         }
 
-                        Book book = new Book(title, authorList, publicationDate, url, existsKindle);
+                        Book book = new Book(isbn, title, authorList, publicationDate, url, existsKindle);
                         setData(book);
                         if (save) {
                             ArrayList<Book> list = Utils.toList(scanHistoryString);

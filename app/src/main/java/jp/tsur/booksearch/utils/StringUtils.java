@@ -12,6 +12,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class StringUtils {
 
     private static final String URL_CHIL_CHIL = "http://www.chil-chil.net/sp/goodsList/?freeword=";
+    private static final String URL_GOOD_READS = "https://www.goodreads.com/book/isbn/";
 
     /**
      * HmacSHA256化する
@@ -54,5 +55,9 @@ public class StringUtils {
     public static Uri toChilChilUri(String title) {
         String[] split = title.split(" ");
         return Uri.parse(URL_CHIL_CHIL + split[0]);
+    }
+
+    public static Uri toGoodreads(String isbn) {
+        return Uri.parse(URL_GOOD_READS + isbn);
     }
 }

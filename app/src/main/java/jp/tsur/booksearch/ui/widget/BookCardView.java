@@ -2,6 +2,7 @@ package jp.tsur.booksearch.ui.widget;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +24,7 @@ import jp.tsur.booksearch.databinding.ViewBookCardBinding;
 public class BookCardView extends LinearLayout {
 
     public static final int MENU_AMAZON = 0;
+    public static final int MENU_GOODREADS = 3;
     public static final int MENU_CHILCHIL = 1;
     public static final int MENU_DELETE = 2;
 
@@ -30,7 +32,7 @@ public class BookCardView extends LinearLayout {
     @ChilchilEnabled
     BooleanPreference chilchilEnabled;
 
-    private Context context;
+    private String isbn;
     private ViewBookCardBinding binding;
     private BookCardListener listener;
 
@@ -51,7 +53,6 @@ public class BookCardView extends LinearLayout {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.view_book_card, this, true);
         binding.setView(this);
         InjectionUtils.inject(context, this);
-        this.context = context;
     }
 
     public void setBookCardListener(BookCardListener listener) {
@@ -59,17 +60,21 @@ public class BookCardView extends LinearLayout {
     }
 
     public void setData(Book book) {
+        isbn = book.getIsbn();
         binding.setBook(book);
     }
 
     public void onPopMenuClick(View view) {
-        PopupMenu popup = new PopupMenu(context, binding.popMenu);
+        PopupMenu popup = new PopupMenu(view.getContext(), binding.popMenu);
         Menu menu = popup.getMenu();
         menu.add(1, MENU_AMAZON, 0, R.string.label_open_amazon);
-        if (chilchilEnabled.get()) {
-            menu.add(1, MENU_CHILCHIL, 1, R.string.label_open_chilchil);
+        if (!TextUtils.isEmpty(isbn)) {
+            menu.add(1, MENU_GOODREADS, 1, R.string.label_open_goodreads);
         }
-        menu.add(1, MENU_DELETE, 2, R.string.label_delete_book_from_history);
+        if (chilchilEnabled.get()) {
+            menu.add(1, MENU_CHILCHIL, 2, R.string.label_open_chilchil);
+        }
+        menu.add(1, MENU_DELETE, 3, R.string.label_delete_book_from_history);
 
         popup.show();
 

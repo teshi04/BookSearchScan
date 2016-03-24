@@ -7,9 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
                             case BookCardView.MENU_AMAZON:
                                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(book.getUrl()));
                                 startActivity(intent);
+                                return true;
+                            case BookCardView.MENU_GOODREADS:
+                                if (!TextUtils.isEmpty(book.getIsbn())) {
+                                    intent = new Intent(Intent.ACTION_VIEW, StringUtils.toGoodreads(book.getIsbn()));
+                                    startActivity(intent);
+                                }
                                 return true;
                             case BookCardView.MENU_CHILCHIL:
                                 intent = new Intent(Intent.ACTION_VIEW, StringUtils.toChilChilUri(book.getTitle()));

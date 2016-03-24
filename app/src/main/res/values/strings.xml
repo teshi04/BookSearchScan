@@ -17,6 +17,7 @@
     <string name="label_kindle_edition_non">Kindle版 なし</string>
     <string name="label_open_chilchil">ちるちる で開く</string>
     <string name="label_open_amazon">Amazon で開く</string>
+    <string name="label_open_goodreads">goodreads で開く</string>
     <string name="toast_error_net">インターネットに繋がっていないようです</string>
     <string name="toast_error_other">おや？ もう一度試してみてください</string>
     <string name="toast_error_not_isbn">ISBN コードではありません。\n書籍の上のバーコードを読み取ってください。</string>
