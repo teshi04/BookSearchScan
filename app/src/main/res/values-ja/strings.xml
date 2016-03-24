@@ -13,8 +13,8 @@
 
     <!-- 詳細 -->
     <string name="title_activity_item">書籍情報</string>
-    <string name="label_kindle_edition_exists">Kindle版 あり</string>
-    <string name="label_kindle_edition_non">Kindle版 なし</string>
+    <string name="label_kindle_edition_exists">Kindle</string>
+    <string name="label_kindle_edition_non">Kindle</string>
     <string name="label_open_chilchil">ちるちる で開く</string>
     <string name="label_open_amazon">Amazon で開く</string>
     <string name="label_open_goodreads">goodreads で開く</string>
