@@ -7,6 +7,7 @@ import jp.tsur.booksearch.ui.widget.BookCardView;
         injects = {
                 MainActivity.class,
                 ItemActivity.class,
+                SettingsActivity.SettingsFragment.class,
                 BookCardView.class
         })
 public class UiModule {

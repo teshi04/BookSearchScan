@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_ZXING = 0;
     public static final int REQUEST_ITEM = 1;
+    public static final int REQUEST_SETTINGS = 2;
 
     @Inject
     @ChilchilEnabled
@@ -82,7 +83,10 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 return true;
                             case BookCardView.MENU_DELETE:
+                                final ArrayList<Book> list = Utils.toList(scanHistory.get());
+                                list.remove(viewHolder.getAdapterPosition());
                                 remove(viewHolder.getAdapterPosition());
+                                scanHistory.set(!list.isEmpty() ? Utils.toJsonString(list) : "");
                                 return true;
                         }
                         return false;
@@ -110,13 +114,16 @@ public class MainActivity extends AppCompatActivity {
 
                         // 削除
                         adapter.remove(targetPosition);
-                        scanHistory.set(!bookList.isEmpty() ? Utils.toJsonString(bookList) : "");
+                        final ArrayList<Book> list = Utils.toList(scanHistory.get());
+                        list.remove(targetPosition);
+                        scanHistory.set(!list.isEmpty() ? Utils.toJsonString(list) : "");
                         Snackbar.make(binding.container, R.string.snack_deleted, Snackbar.LENGTH_LONG)
                                 .setAction(R.string.snack_undo, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         // 元に戻す
-                                        scanHistory.set(Utils.toJsonString(bookList));
+                                        list.add(targetItem);
+                                        scanHistory.set(Utils.toJsonString(list));
                                         adapter.insert(targetItem, targetPosition);
                                     }
                                 })
@@ -156,6 +163,12 @@ public class MainActivity extends AppCompatActivity {
                     binding.recyclerView.setVisibility(View.VISIBLE);
                     binding.emptyText.setVisibility(View.GONE);
                     break;
+                case REQUEST_SETTINGS:
+                    binding.recyclerView.scrollToPosition(0);
+                    adapter.addAll(Utils.toList(scanHistory.get()));
+                    binding.recyclerView.setVisibility(View.VISIBLE);
+                    binding.emptyText.setVisibility(View.GONE);
+                    break;
             }
         }
     }
@@ -171,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_SETTINGS);
             return true;
         }
 

@@ -27,9 +27,12 @@
     <string name="category_settings">全般</string>
     <string name="pref_title_chilchil_visible">BLサイト・ちるちるを表示する</string>
     <string name="category_about">概要</string>
+    <string name="pref_licence">オープンソースライセンス</string>
+    <string name="category_debug">Debug</string>
+    <string name="pref_insert_items">Insert items</string>
+    <string name="pref_item_activity">Open ItemActivity</string>
 
     <!-- ライセンス -->
     <string name="title_activity_licence">オープンソースライセンス</string>
-    <string name="pref_licence">オープンソースライセンス</string>
 
 </resources>

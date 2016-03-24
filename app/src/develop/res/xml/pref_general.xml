@@ -1,0 +1,25 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/category_settings">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="chilchil_visible"
+            android:title="@string/pref_title_chilchil_visible" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/category_about">
+        <Preference
+            android:key="licence"
+            android:title="@string/pref_licence" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/category_debug">
+        <Preference
+            android:key="insert_items"
+            android:title="@string/pref_insert_items" />
+
+        <Preference
+            android:key="item_activity"
+            android:title="@string/pref_item_activity" />
+    </PreferenceCategory>
+</PreferenceScreen>

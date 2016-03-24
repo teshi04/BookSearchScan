@@ -38,9 +38,9 @@ public class ScanHistoryAdapter extends RecyclerView.Adapter<ScanHistoryAdapter.
         return bookList.size();
     }
 
-    public void add(Book item) {
-        bookList.add(item);
-        notifyItemInserted(bookList.size());
+    public void addAll(ArrayList<Book> bookList) {
+        this.bookList = bookList;
+        notifyDataSetChanged();
     }
 
     public void insert(Book item, int position) {
