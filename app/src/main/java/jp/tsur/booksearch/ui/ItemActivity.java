@@ -109,7 +109,7 @@ public class ItemActivity extends AppCompatActivity {
     private void setData(Book book) {
         this.title = book.getTitle();
         this.amazonUrl = book.getUrl();
-        this.isbn = isbn;
+        this.isbn = book.getIsbn();
 
         binding.setBook(book);
         if (chilchilEnabled.get()) {
@@ -117,7 +117,7 @@ public class ItemActivity extends AppCompatActivity {
         }
 
         binding.progressBar.setVisibility(View.GONE);
-        binding.cardView.setVisibility(View.VISIBLE);
+        binding.container.setVisibility(View.VISIBLE);
     }
 
     private void search(final String isbn, final boolean save) {
