@@ -6,7 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="error_toast_scanner_not_installed">Please install QR Code Scanner.</string>
     <string name="image_description_more">more</string>
-    <string name="label_delete_book_from_history">Delete item</string>
+    <string name="label_delete_book_from_history">Delete</string>
     <string name="snack_deleted">Deleted</string>
     <string name="snack_undo">UNDO</string>
     <string name="list_empty">Let\'s scan ISBN code.</string>
