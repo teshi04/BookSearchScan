@@ -4,12 +4,11 @@
 
     <!-- メイン -->
     <string name="action_settings">設定</string>
-    <string name="error_toast_scanner_not_installed">QRコードスキャナーをインストールしてください。</string>
     <string name="image_description_more">more</string>
     <string name="label_delete_book_from_history">履歴から削除</string>
     <string name="snack_deleted">削除しました</string>
     <string name="snack_undo">元に戻す</string>
-    <string name="list_empty">履歴はありません。\n カメラボタンをタップして、\n本のバーコードを読み取ってください。</string>
+    <string name="list_empty">履歴はありません。\n カメラボタンをタップして、\n本のバーコードをスキャンしてください。</string>
 
     <!-- 詳細 -->
     <string name="title_activity_item">書籍情報</string>
@@ -34,5 +33,7 @@
 
     <!-- ライセンス -->
     <string name="title_activity_licence">オープンソースライセンス</string>
+    <string name="permission_camera_rationale">カメラの権限が必要です。</string>
+    <string name="capture_text">ISBNコードをスキャンしてください。</string>
 
 </resources>

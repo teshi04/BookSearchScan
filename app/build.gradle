@@ -87,4 +87,7 @@ dependencies {
     compile 'com.squareup.dagger:dagger:1.2.2'
     apt 'com.squareup.dagger:dagger-compiler:1.2.2'
     compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'com.google.android.gms:play-services-vision:8.4.0'
+    compile 'com.github.hotchemi:permissionsdispatcher:2.1.2'
+    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.1.2'
 }

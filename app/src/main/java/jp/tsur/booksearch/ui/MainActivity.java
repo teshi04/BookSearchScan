@@ -1,6 +1,5 @@
 package jp.tsur.booksearch.ui;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
@@ -14,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -35,7 +33,7 @@ import jp.tsur.booksearch.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int REQUEST_ZXING = 0;
+    public static final int REQUEST_BARCODE_CAPTURE = 0;
     public static final int REQUEST_ITEM = 1;
     public static final int REQUEST_SETTINGS = 2;
 
@@ -134,23 +132,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onScanButtonClick(View view) {
-        Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-        intent.putExtra("SCAN_FORMATS", "EAN_13");
-
-        try {
-            startActivityForResult(intent, REQUEST_ZXING);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, getString(R.string.error_toast_scanner_not_installed), Toast.LENGTH_LONG).show();
-            Uri uri = Uri.parse("market://details?id=com.google.zxing.client.android&hl=ja");
-            startActivity(new Intent(Intent.ACTION_VIEW, uri));
-        }
+        Intent intent = new Intent(this, BarcodeCaptureActivity.class);
+        startActivityForResult(intent, REQUEST_BARCODE_CAPTURE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case REQUEST_ZXING:
+                case REQUEST_BARCODE_CAPTURE:
                     String isbn = data.getStringExtra("SCAN_RESULT");
                     Intent intent = ItemActivity.createIntent(this, isbn);
                     startActivityForResult(intent, REQUEST_ITEM);
