@@ -1,17 +1,13 @@
 package jp.tsur.booksearch.ui;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -32,17 +28,20 @@ import jp.tsur.booksearch.camera.BarcodeGraphicTracker;
 import jp.tsur.booksearch.camera.BarcodeTrackerFactory;
 import jp.tsur.booksearch.camera.GraphicOverlay;
 import jp.tsur.booksearch.ui.widget.CameraSourcePreview;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
 
+@RuntimePermissions
 public class BarcodeCaptureActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeGraphicTrackerListener {
 
     private static final String TAG = "Barcode-reader";
 
     // intent request code to handle updating play services if needed.
     private static final int RC_HANDLE_GMS = 9001;
-
-    // permission request codes need to be < 256
-    private static final int RC_HANDLE_CAMERA_PERM = 2;
 
     private CameraSource cameraSource;
     private CameraSourcePreview preview;
@@ -56,38 +55,11 @@ public class BarcodeCaptureActivity extends AppCompatActivity implements Barcode
         preview = (CameraSourcePreview) findViewById(R.id.preview);
         graphicOverlay = (GraphicOverlay<BarcodeGraphic>) findViewById(R.id.graphicOverlay);
 
-        int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-        if (rc == PackageManager.PERMISSION_GRANTED) {
-            createCameraSource();
-        } else {
-            requestCameraPermission();
-        }
+        BarcodeCaptureActivityPermissionsDispatcher.createCameraSourceWithCheck(this);
     }
 
-    private void requestCameraPermission() {
-        final String[] permissions = new String[]{Manifest.permission.CAMERA};
-
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.CAMERA)) {
-            ActivityCompat.requestPermissions(this, permissions, RC_HANDLE_CAMERA_PERM);
-            return;
-        }
-
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActivityCompat.requestPermissions(BarcodeCaptureActivity.this, permissions,
-                        RC_HANDLE_CAMERA_PERM);
-            }
-        };
-
-        Snackbar.make(graphicOverlay, R.string.permission_camera_rationale,
-                Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.ok, listener)
-                .show();
-    }
-
-    private void createCameraSource() {
+    @NeedsPermission(Manifest.permission.CAMERA)
+    void createCameraSource() {
         Context context = getApplicationContext();
 
         BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(context)
@@ -140,25 +112,26 @@ public class BarcodeCaptureActivity extends AppCompatActivity implements Barcode
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode != RC_HANDLE_CAMERA_PERM) {
-            Log.d(TAG, "Got unexpected permission result: " + requestCode);
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            return;
-        }
+        BarcodeCaptureActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
 
-        if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Log.d(TAG, "Camera permission granted - initialize the camera source");
-            createCameraSource();
-            return;
-        }
+    @OnPermissionDenied(Manifest.permission.CAMERA)
+    void showDeniedForCamera() {
+        finish();
+    }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.no_camera_permission)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        finish();
-                    }
-                })
+    @OnShowRationale(Manifest.permission.CAMERA)
+    void showRationaleForCamera(final PermissionRequest request) {
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                request.proceed();
+            }
+        };
+
+        Snackbar.make(graphicOverlay, R.string.permission_camera_rationale,
+                Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.ok, listener)
                 .show();
     }
 
@@ -184,7 +157,6 @@ public class BarcodeCaptureActivity extends AppCompatActivity implements Barcode
             try {
                 preview.start(cameraSource, graphicOverlay);
             } catch (IOException e) {
-                Log.e(TAG, "Unable to start camera source.", e);
                 cameraSource.release();
                 cameraSource = null;
             }
