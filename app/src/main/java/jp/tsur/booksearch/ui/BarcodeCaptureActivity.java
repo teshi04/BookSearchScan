@@ -167,6 +167,7 @@ public class BarcodeCaptureActivity extends AppCompatActivity implements Barcode
         Intent data = new Intent();
         data.putExtra("SCAN_RESULT", isbn);
         setResult(RESULT_OK, data);
+        finish();
     }
 
     private void startCameraSource() throws SecurityException {

@@ -141,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_BARCODE_CAPTURE:
-                    // TODO:
                     String isbn = data.getStringExtra("SCAN_RESULT");
                     Intent intent = ItemActivity.createIntent(this, isbn);
                     startActivityForResult(intent, REQUEST_ITEM);
