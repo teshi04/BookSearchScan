@@ -13,8 +13,8 @@ android {
         applicationId "jp.tsur.booksearch"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 11
-        versionName "1.2.6"
+        versionCode 12
+        versionName "1.2.7"
 
         buildConfigField "String", "AWS_ACCESS_KEY", "\"${AWS_ACCESS_KEY}\""
         buildConfigField "String", "AWS_SECRET", "\"${AWS_SECRET}\""
@@ -40,6 +40,10 @@ android {
         }
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+
+    }
     compileOptions {
         encoding = "UTF-8"
         sourceCompatibility JavaVersion.VERSION_1_7
