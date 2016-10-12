@@ -53,8 +53,8 @@ public class StringUtils {
     }
 
     public static Uri toChilChilUri(String title) {
-        String[] split = title.split(" ");
-        return Uri.parse(URL_CHIL_CHIL + split[0]);
+        int index = title.indexOf("(");
+        return Uri.parse(URL_CHIL_CHIL + title.substring(0, index));
     }
 
     public static Uri toGoodreads(String isbn) {
