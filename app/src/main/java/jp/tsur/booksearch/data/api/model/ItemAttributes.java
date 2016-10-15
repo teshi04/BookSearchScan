@@ -18,7 +18,7 @@ public class ItemAttributes {
     @Element(name = "Title")
     String title;
 
-    @Element(name = "PublicationDate")
+    @Element(name = "PublicationDate", required = false)
     String publicationDate;
 
     public List<Author> getAuthorList() {

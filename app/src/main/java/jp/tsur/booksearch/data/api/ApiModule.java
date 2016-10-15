@@ -5,7 +5,11 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit.RestAdapter;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 @Module(
         complete = false,
@@ -17,16 +21,26 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    RestAdapter provideRestAdapter() {
-        return new RestAdapter.Builder()
-                .setEndpoint(API_URL)
-                .setConverter(new SimpleXMLConverter())
+    Retrofit provideRetrofit() {
+        return new Retrofit.Builder()
+                .client(createClient())
+                .baseUrl(API_URL)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(SimpleXmlConverterFactory.create())
                 .build();
     }
 
     @Provides
     @Singleton
-    AwsService provideAwsService(RestAdapter restAdapter) {
-        return restAdapter.create(AwsService.class);
+    AwsService provideAwsService(Retrofit retrofit) {
+        return retrofit.create(AwsService.class);
+    }
+
+    private OkHttpClient createClient() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build();
     }
 }

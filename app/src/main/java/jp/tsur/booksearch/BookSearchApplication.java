@@ -15,8 +15,6 @@ public class BookSearchApplication extends Application {
 
         graph = ObjectGraph.create(getModules());
         graph.inject(this);
-
-
     }
 
     protected Object getModules() {

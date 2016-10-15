@@ -4,18 +4,24 @@ import java.io.Serializable;
 
 public class Book implements Serializable {
 
+    private String isbn;
     private String title;
     private String author;
     private String publicationDate;
     private String url;
     private boolean existsKindle;
 
-    public Book(String title, String author, String publicationDate, String url, boolean existsKindle) {
+    public Book(String isbn, String title, String author, String publicationDate, String url, boolean existsKindle) {
+        this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.url = url;
         this.publicationDate = publicationDate;
         this.existsKindle = existsKindle;
+    }
+
+    public String getIsbn() {
+        return isbn;
     }
 
     public String getUrl() {

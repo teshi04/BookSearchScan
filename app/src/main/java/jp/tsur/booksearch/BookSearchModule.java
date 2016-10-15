@@ -17,7 +17,6 @@ import jp.tsur.booksearch.ui.UiModule;
         },
         injects = {
                 BookSearchApplication.class
-
         }
 )
 public class BookSearchModule {

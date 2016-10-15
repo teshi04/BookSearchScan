@@ -1,0 +1,39 @@
+<resources>
+
+    <string name="app_name">バーコード書籍検索</string>
+
+    <!-- メイン -->
+    <string name="action_settings">設定</string>
+    <string name="image_description_more">more</string>
+    <string name="label_delete_book_from_history">履歴から削除</string>
+    <string name="snack_deleted">削除しました</string>
+    <string name="snack_undo">元に戻す</string>
+    <string name="list_empty">履歴はありません。\n カメラボタンをタップして、\n本のバーコードをスキャンしてください。</string>
+
+    <!-- 詳細 -->
+    <string name="title_activity_item">書籍情報</string>
+    <string name="label_kindle_edition_exists">Kindle</string>
+    <string name="label_kindle_edition_non">Kindle</string>
+    <string name="label_open_chilchil">ちるちる で開く</string>
+    <string name="label_open_amazon">Amazon で開く</string>
+    <string name="label_open_goodreads">goodreads で開く</string>
+    <string name="toast_error_net">インターネットに繋がっていないようです</string>
+    <string name="toast_error_other">おや？ もう一度試してみてください</string>
+    <string name="toast_error_not_isbn">ISBN コードではありません。\n書籍の上のバーコードを読み取ってください。</string>
+
+    <!-- 設定 -->
+    <string name="title_activity_settings">設定</string>
+    <string name="category_settings">全般</string>
+    <string name="pref_title_chilchil_visible">BLサイト・ちるちるを表示する</string>
+    <string name="category_about">概要</string>
+    <string name="pref_licence">オープンソースライセンス</string>
+    <string name="category_debug">Debug</string>
+    <string name="pref_insert_items">Insert items</string>
+    <string name="pref_item_activity">Open ItemActivity</string>
+
+    <!-- ライセンス -->
+    <string name="title_activity_licence">オープンソースライセンス</string>
+    <string name="permission_camera_rationale">カメラの権限が必要です。</string>
+    <string name="capture_text">ISBNコードをスキャンしてください。</string>
+
+</resources>
