@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -30,15 +31,16 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/pop_menu"
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_alignParentRight="true"
-                    android:onClick="@{view.onPopMenuClick}"
                     android:layout_gravity="right"
-                    android:background="@drawable/more_bg"
-                    android:contentDescription="@string/image_description_more" />
+                    android:contentDescription="@string/image_description_more"
+                    android:onClick="@{view.onPopMenuClick}"
+                    android:padding="8dp"
+                    app:srcCompat="@drawable/more_vert_vector" />
 
                 <TextView
                     android:id="@+id/title_view"
@@ -86,25 +88,11 @@
                     android:id="@+id/kindle_exist_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/publication_date_view"
-                    android:background="@drawable/kindle_exist_background"
+                    android:background="@{book.existsKindle ? @drawable/kindle_exist_background : @drawable/kindle_none_background}"
                     android:text="@string/label_kindle_edition_exists"
-                    android:textColor="@color/orange_500"
-                    android:textSize="16sp"
-                    android:visibility="@{book.existsKindle ? View.VISIBLE : View.GONE}"
-                    tools:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/kindle_none_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:textColor="@{book.existsKindle ? @color/orange_500 : @color/gray_900}"
                     android:layout_alignBottom="@id/publication_date_view"
-                    android:background="@drawable/kindle_none_background"
-                    android:text="@string/label_kindle_edition_non"
-                    android:textColor="@color/gray_900"
-                    android:textSize="16sp"
-                    android:visibility="@{book.existsKindle ? View.GONE : View.VISIBLE}"
-                    tools:visibility="gone" />
+                    android:textSize="16sp" />
 
             </RelativeLayout>
 

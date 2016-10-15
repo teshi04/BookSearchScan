@@ -34,7 +34,7 @@
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             android:onClick="@{activity.onScanButtonClick}"
-            android:src="@drawable/ic_camera_alt_white_24dp"
+            app:srcCompat="@drawable/camera_vector"
             app:layout_behavior="jp.tsur.booksearch.ui.ScrollFABBehavior" />
 
     </android.support.design.widget.CoordinatorLayout>

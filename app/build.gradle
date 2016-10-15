@@ -16,6 +16,8 @@ android {
         versionCode 13
         versionName "1.2.8"
 
+        vectorDrawables.useSupportLibrary = true
+
         buildConfigField "String", "AWS_ACCESS_KEY", "\"${AWS_ACCESS_KEY}\""
         buildConfigField "String", "AWS_SECRET", "\"${AWS_SECRET}\""
         buildConfigField "String", "ASSOCIATE_TAG", "\"${ASSOCIATE_TAG}\""
