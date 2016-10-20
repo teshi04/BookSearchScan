@@ -40,4 +40,5 @@
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
     <string name="capture_text">Scan the ISBN code.</string>
 
+    <string name="shortcuts_scan_barcode">Scan barcode</string>
 </resources>
