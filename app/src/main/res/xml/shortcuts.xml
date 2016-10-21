@@ -1,10 +1,10 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
         android:enabled="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/camera"
         android:shortcutId="scan_barcode"
-        android:shortcutLongLabel="@string/shortcuts_scan_barcode"
-        android:shortcutShortLabel="@string/shortcuts_scan_barcode">
+        android:shortcutLongLabel="@string/shortcuts_scan_barcode_long"
+        android:shortcutShortLabel="@string/shortcuts_scan_barcode_short">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="jp.tsur.booksearch.ui.BarcodeCaptureActivity"

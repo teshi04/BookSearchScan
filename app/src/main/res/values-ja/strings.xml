@@ -36,5 +36,6 @@
     <string name="permission_camera_rationale">カメラの権限が必要です。</string>
     <string name="capture_text">ISBNコードをスキャンしてください。</string>
 
-    <string name="shortcuts_scan_barcode">バーコードをスキャン</string>
+    <string name="shortcuts_scan_barcode_long">バーコードをスキャン</string>
+    <string name="shortcuts_scan_barcode_short">スキャン</string>
 </resources>
