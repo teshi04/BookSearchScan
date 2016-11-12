@@ -13,8 +13,8 @@ android {
         applicationId "jp.tsur.booksearch"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 14
-        versionName "1.2.9"
+        versionCode 15
+        versionName "1.2.10"
 
         vectorDrawables.useSupportLibrary = true
 
