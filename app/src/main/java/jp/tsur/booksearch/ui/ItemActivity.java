@@ -22,6 +22,14 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.Disposables;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import jp.tsur.booksearch.BuildConfig;
 import jp.tsur.booksearch.InjectionUtils;
 import jp.tsur.booksearch.R;
@@ -39,13 +47,6 @@ import jp.tsur.booksearch.databinding.ActivityItemBinding;
 import jp.tsur.booksearch.utils.StringUtils;
 import jp.tsur.booksearch.utils.Utils;
 import retrofit2.adapter.rxjava.HttpException;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.Subscriptions;
 
 
 public class ItemActivity extends AppCompatActivity {
@@ -79,7 +80,7 @@ public class ItemActivity extends AppCompatActivity {
     private String title;
     private String isbn;
     private ActivityItemBinding binding;
-    private Subscription subscription = Subscriptions.empty();
+    private Disposable disposable = Disposables.empty();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +103,7 @@ public class ItemActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        subscription.unsubscribe();
+        disposable.dispose();
         super.onDestroy();
     }
 
@@ -141,45 +142,29 @@ public class ItemActivity extends AppCompatActivity {
 
         final String scanHistoryString = scanHistory.get();
 
-        subscription = awsService.getBook(AWS_ACCESS_KEY, ASSOCIATE_TAG, "ISBN", isbn,
+        disposable = awsService.getBook(AWS_ACCESS_KEY, ASSOCIATE_TAG, "ISBN", isbn,
                 "ItemLookup", "ItemAttributes", "Books", "AWSECommerceService",
                 timestamp, AMAZON_VERSION, digest)
-                .subscribeOn(Schedulers.newThread())
-                .retryWhen(new Func1<Observable<? extends Throwable>, Observable<Long>>() {
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new Function<Observable<Throwable>, ObservableSource<Long>>() {
                     @Override
-                    public Observable<Long> call(Observable<? extends Throwable> observable) {
-                        return observable.flatMap(new Func1<Throwable, Observable<Long>>() {
+                    public ObservableSource<Long> apply(Observable<Throwable> observable) throws Exception {
+                        return observable.flatMap(new Function<Throwable, ObservableSource<Long>>() {
                             @Override
-                            public Observable<Long> call(Throwable e) {
-                                if (e instanceof HttpException) {
+                            public ObservableSource<Long> apply(Throwable throwable) throws Exception {
+                                if (throwable instanceof HttpException) {
                                     // 結構な確率で 503 エラーが出るが、リトライすれば大体成功する
                                     return Observable.timer(3, TimeUnit.SECONDS);
                                 }
-                                return Observable.error(e);
+                                return Observable.error(throwable);
                             }
                         });
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ItemLookupResponse>() {
+                .subscribe(new Consumer<ItemLookupResponse>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (e instanceof UnknownHostException) {
-                            Toast.makeText(ItemActivity.this, getString(R.string.toast_error_net), Toast.LENGTH_SHORT).show();
-                        } else {
-                            // 不明なエラー
-                            Toast.makeText(ItemActivity.this, getString(R.string.toast_error_other), Toast.LENGTH_SHORT).show();
-                        }
-                        finish();
-                    }
-
-                    @Override
-                    public void onNext(ItemLookupResponse response) {
+                    public void accept(ItemLookupResponse response) throws Exception {
                         if (response.getItems().getItemList() == null) {
                             Toast.makeText(ItemActivity.this, getString(R.string.toast_error_not_isbn),
                                     Toast.LENGTH_LONG).show();
@@ -216,6 +201,17 @@ public class ItemActivity extends AppCompatActivity {
                             scanHistory.set(Utils.toJsonString(list));
                         }
                         setResult(RESULT_OK);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        if (throwable instanceof UnknownHostException) {
+                            Toast.makeText(ItemActivity.this, getString(R.string.toast_error_net), Toast.LENGTH_SHORT).show();
+                        } else {
+                            // 不明なエラー
+                            Toast.makeText(ItemActivity.this, getString(R.string.toast_error_other), Toast.LENGTH_SHORT).show();
+                        }
+                        finish();
                     }
                 });
     }
