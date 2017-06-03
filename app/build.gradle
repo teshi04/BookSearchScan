@@ -75,7 +75,7 @@ if (project.hasProperty('keyPassword')) {
 }
 
 dependencies {
-    def supportLibraryVersion = '24.2.1'
+    def supportLibraryVersion = '25.3.1'
     def retrofitVersion = '2.1.0'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -91,11 +91,11 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${supportLibraryVersion}"
     compile "com.android.support:appcompat-v7:${supportLibraryVersion}"
     compile "com.android.support:design:${supportLibraryVersion}"
-    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.dagger:dagger:1.2.2'
     annotationProcessor 'com.squareup.dagger:dagger-compiler:1.2.2'
     compile 'io.reactivex:rxandroid:1.0.1'
-    compile 'com.google.android.gms:play-services-vision:9.6.1'
-    compile 'com.github.hotchemi:permissionsdispatcher:2.2.0'
-    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.2.0'
+    compile 'com.google.android.gms:play-services-vision:10.2.6'
+    compile 'com.github.hotchemi:permissionsdispatcher:2.4.0'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.4.0'
 }
