@@ -46,7 +46,7 @@ import jp.tsur.booksearch.data.prefs.StringPreference;
 import jp.tsur.booksearch.databinding.ActivityItemBinding;
 import jp.tsur.booksearch.utils.StringUtils;
 import jp.tsur.booksearch.utils.Utils;
-import retrofit2.adapter.rxjava.HttpException;
+import retrofit2.HttpException;
 
 
 public class ItemActivity extends AppCompatActivity {
