@@ -51,11 +51,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    flavorDimensions "mode"
     productFlavors {
         develop {
+            dimension "mode"
             applicationId "jp.tsur.booksearch.develop"
         }
         production {
+            dimension "mode"
             applicationId "jp.tsur.booksearch"
         }
     }
