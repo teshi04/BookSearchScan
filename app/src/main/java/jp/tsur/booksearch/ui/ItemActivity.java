@@ -118,7 +118,7 @@ public class ItemActivity extends AppCompatActivity {
         }
 
         binding.progressBar.setVisibility(View.GONE);
-        binding.container.setVisibility(View.VISIBLE);
+        binding.contents.setVisibility(View.VISIBLE);
     }
 
     private void search(final String isbn, final boolean save) {
