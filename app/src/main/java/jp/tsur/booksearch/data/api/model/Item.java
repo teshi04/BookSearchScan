@@ -12,6 +12,9 @@ public class Item {
     @Element(name = "DetailPageURL")
     String detailPageURL;
 
+    @Element(name = "LargeImage")
+    LargeImage largeImage;
+
     public ItemAttributes getItemAttributes() {
         return itemAttributes;
     }
@@ -26,5 +29,13 @@ public class Item {
 
     public void setDetailPageURL(String detailPageURL) {
         this.detailPageURL = detailPageURL;
+    }
+
+    public LargeImage getLargeImage() {
+        return largeImage;
+    }
+
+    public void setLargeImage(LargeImage largeImage) {
+        this.largeImage = largeImage;
     }
 }
