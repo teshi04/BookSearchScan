@@ -1,0 +1,8 @@
+build:
+  box:
+    id: gcr.io/ramen-e1da4/github-teshi04-wercker-container-android
+    username: _json_key
+    password: $GCR_JSON_KEY_FILE
+    registry: https://gcr.io
+    tag: 2879698e1b3508e037d34004c21fd0d7a13c5ab2
+    
