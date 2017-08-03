@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ import jp.tsur.booksearch.data.api.model.Book;
 import jp.tsur.booksearch.data.api.model.Item;
 import jp.tsur.booksearch.data.api.model.ItemAttributes;
 import jp.tsur.booksearch.data.api.model.ItemLookupResponse;
+import jp.tsur.booksearch.data.api.model.LargeImage;
 import jp.tsur.booksearch.data.prefs.BooleanPreference;
 import jp.tsur.booksearch.data.prefs.StringPreference;
 import jp.tsur.booksearch.databinding.ActivityItemBinding;
@@ -117,6 +120,8 @@ public class ItemActivity extends AppCompatActivity {
             binding.chilchilButton.setVisibility(View.VISIBLE);
         }
 
+        Picasso.with(this).load(book.getImageUrl()).into(binding.image);
+
         binding.progressBar.setVisibility(View.GONE);
         binding.contents.setVisibility(View.VISIBLE);
     }
@@ -130,7 +135,7 @@ public class ItemActivity extends AppCompatActivity {
         builder.appendQueryParameter("IdType", "ISBN");
         builder.appendQueryParameter("ItemId", isbn);
         builder.appendQueryParameter("Operation", "ItemLookup");
-        builder.appendQueryParameter("ResponseGroup", "ItemAttributes");
+        builder.appendQueryParameter("ResponseGroup", "ItemAttributes,Images");
         builder.appendQueryParameter("SearchIndex", "Books");
         builder.appendQueryParameter("Service", "AWSECommerceService");
         builder.appendQueryParameter("Timestamp", timestamp);
@@ -143,7 +148,7 @@ public class ItemActivity extends AppCompatActivity {
         final String scanHistoryString = scanHistory.get();
 
         disposable = awsService.getBook(AWS_ACCESS_KEY, ASSOCIATE_TAG, "ISBN", isbn,
-                "ItemLookup", "ItemAttributes", "Books", "AWSECommerceService",
+                "ItemLookup", "ItemAttributes,Images", "Books", "AWSECommerceService",
                 timestamp, AMAZON_VERSION, digest)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new Function<Observable<Throwable>, ObservableSource<Long>>() {
@@ -176,6 +181,7 @@ public class ItemActivity extends AppCompatActivity {
                         String publicationDate = "";
                         String authorList = "";
                         String url = "";
+                        String imageUrl = "";
 
                         boolean existsKindle = false;
                         for (Item item : itemList) {
@@ -191,9 +197,13 @@ public class ItemActivity extends AppCompatActivity {
                                             author.getAuthorName() : authorList + ", " + author.getAuthorName();
                                 }
                             }
+                            LargeImage largeImage = item.getLargeImage();
+                            if (largeImage != null) {
+                                imageUrl = largeImage.getUrl();
+                            }
                         }
 
-                        Book book = new Book(isbn, title, authorList, publicationDate, url, existsKindle);
+                        Book book = new Book(isbn, title, authorList, publicationDate, url, imageUrl, existsKindle);
                         setData(book);
                         if (save) {
                             ArrayList<Book> list = Utils.toList(scanHistoryString);
@@ -205,6 +215,7 @@ public class ItemActivity extends AppCompatActivity {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
                         if (throwable instanceof UnknownHostException) {
                             Toast.makeText(ItemActivity.this, getString(R.string.toast_error_net), Toast.LENGTH_SHORT).show();
                         } else {

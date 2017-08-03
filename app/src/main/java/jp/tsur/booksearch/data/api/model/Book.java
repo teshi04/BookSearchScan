@@ -9,13 +9,15 @@ public class Book implements Serializable {
     private String author;
     private String publicationDate;
     private String url;
+    private String imageUrl;
     private boolean existsKindle;
 
-    public Book(String isbn, String title, String author, String publicationDate, String url, boolean existsKindle) {
+    public Book(String isbn, String title, String author, String publicationDate, String url, String imageUrl, boolean existsKindle) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.url = url;
+        this.imageUrl = imageUrl;
         this.publicationDate = publicationDate;
         this.existsKindle = existsKindle;
     }
@@ -42,5 +44,9 @@ public class Book implements Serializable {
 
     public boolean isExistsKindle() {
         return existsKindle;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }
