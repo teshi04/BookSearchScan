@@ -11,7 +11,10 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class StringUtils {
 
-    private static final String URL_CHIL_CHIL = "http://www.chil-chil.net/goodsList/freeword/?freeword=";
+    private static final String URL_CHIL_CHIL_SCHEME = "https";
+    private static final String URL_CHIL_CHIL_AUTHORITY = "www.chil-chil.net";
+    private static final String URL_CHIL_CHIL_PATH = "goodsList/freeword";
+    private static final String URL_CHIL_CHIL_QUERY = "freeword";
     private static final String URL_GOOD_READS = "https://www.goodreads.com/book/isbn/";
 
     /**
@@ -52,9 +55,24 @@ public class StringUtils {
         return text;
     }
 
+    /**
+     * 本のタイトルをちるちるの検索URLにする
+     * <p>
+     * ワンダーフォーゲル(CHARAコミックス)
+     * -> https://www.chil-chil.net/goodsList/freeword/?freeword=ワンダーフォーゲル
+     *
+     * @param title 本のタイトル
+     * @return ちるちるの検索URL
+     */
     public static Uri toChilChilUri(String title) {
-        int index = title.indexOf("(");
-        return Uri.parse(URL_CHIL_CHIL + title.substring(0, index));
+        // タイトルだけあればいいから、"(" より前があればOK
+        //  Uri.parse() だとクエリー部分までエンコードされてうまくいかなかった
+        return new Uri.Builder()
+                .scheme(URL_CHIL_CHIL_SCHEME)
+                .authority(URL_CHIL_CHIL_AUTHORITY)
+                .path(URL_CHIL_CHIL_PATH)
+                .appendQueryParameter(URL_CHIL_CHIL_QUERY, title.substring(0, title.indexOf("(")))
+                .build();
     }
 
     public static Uri toGoodreads(String isbn) {
