@@ -31,24 +31,26 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{book.title}"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="夏の塩 (SHY NOVELS)" />
-
         <ImageView
             android:id="@+id/image"
             android:layout_width="80dp"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
             app:layout_constraintDimensionRatio="h,3:4"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/orange_500" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="@{book.title}"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@id/image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="夏の塩 (SHY NOVELS)" />
 
         <TextView
             android:id="@+id/authors"
@@ -58,7 +60,7 @@
             android:text="@{book.author}"
             android:textColor="@color/gray_800"
             android:textSize="18sp"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/title"
             tools:text="榎田尤利" />
 
@@ -70,7 +72,7 @@
             android:text="@{book.publicationDate}"
             android:textColor="@color/gray_800"
             android:textSize="18sp"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/title"
             app:layout_constraintTop_toBottomOf="@id/authors"
             tools:text="2009/7/30" />
 
@@ -78,11 +80,13 @@
             android:id="@+id/kindle_exist_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="16dp"
             android:background="@{book.existsKindle ? @drawable/kindle_exist_background : @drawable/kindle_none_background}"
             android:text="@string/label_kindle_edition_exists"
             android:textColor="@{book.existsKindle ? @color/orange_500 : @color/gray_900}"
             android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image" />
 
         <Button

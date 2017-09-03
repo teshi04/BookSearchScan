@@ -1,5 +1,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -18,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
-            app:layoutManager="LinearLayoutManager" />
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/view_book_card" />
 
         <TextView
             android:id="@+id/empty_text"
@@ -34,8 +36,8 @@
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             android:onClick="@{activity.onScanButtonClick}"
-            app:srcCompat="@drawable/camera_vector"
-            app:layout_behavior="jp.tsur.booksearch.ui.ScrollFABBehavior" />
+            app:layout_behavior="jp.tsur.booksearch.ui.ScrollFABBehavior"
+            app:srcCompat="@drawable/camera_vector" />
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -1,0 +1,10 @@
+{
+  "books": [
+    {
+      "image": "@sample/book_images[blue365x500.png]",
+      "title": "夏の塩 (SHY NOVELS)",
+      "author": "榎田尤利",
+      "publication_date" : "2009/7/30"
+    }
+  ]
+}

@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -51,7 +54,9 @@ public class BookCardView extends LinearLayout {
     public BookCardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.view_book_card, this, true);
-        binding.setView(this);
+
+        // FIXME: これをここに書かないとwrapになっちゃうのなんなの
+        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         InjectionUtils.inject(context, this);
     }
 
@@ -62,6 +67,11 @@ public class BookCardView extends LinearLayout {
     public void setData(Book book) {
         isbn = book.getIsbn();
         binding.setBook(book);
+        if (TextUtils.isEmpty(book.getImageUrl())) {
+            binding.image.setImageResource(R.drawable.no_data);
+        } else {
+            Picasso.with(getContext()).load(book.getImageUrl()).into(binding.image);
+        }
     }
 
     public void onPopMenuClick(View view) {
